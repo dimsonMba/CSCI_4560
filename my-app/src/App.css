@@ -10,41 +10,46 @@
 /* Control the left side */
 .left {
   left: 0;
-  width: 60%;
+  width: 55%;
   background-color: #66AFEB;
 }
 
 /* Control the right side */
 .right {
   right: 0;
-  width: 40%;
+  width: 45%;
   background-color: hsl(0, 0%, 98%);
 }
 
 /*centered the school name*/
 .centered {
-  position: absolute;
+  position: relative;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -100%);
-  text-align: center;
+  justify-content: center;
+  align-items: center;
+  display: flex
 }
 
 /*change the name*/
 .school_name{
+  position: absolute;
   color: #1f259b;
   font-family: 'Inknut Antiqua', serif;
   font-weight: 700;
   font-size: 128px;
+  transform: translate(-50%, -50%);
+  
 }
 
 /*style the uniconnect*/
 .app_name{
+  position: absolute;
   color: #000000;
   font-family: 'Inknut Antiqua', serif;
   font-weight: 700;
   font-size: 40px;
-  transform: translate(52%,680%);
+  transform: translate(13%, 50%);
 }
 
 /*To do the welcome navabar*/
@@ -56,6 +61,7 @@
   margin-right: 15px;
   background-color: #D9D9D9;
   display: flex;
+  justify-content: space-between;
 }
 
 .sign_in{
@@ -66,6 +72,7 @@
   border-radius: 20px;
   border: 4px solid #000000;
   color: #000000;
+  justify-content: left;
 }
 
 .log_in{
@@ -76,7 +83,7 @@
   border-radius: 20px;
   border: 4px solid #000000;
   color: #000000;
-  
+  justify-content: right;
 }
 
 .information_sign{

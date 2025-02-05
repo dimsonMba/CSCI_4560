@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import {BrowserRouter, Routes, Route, Link} from 'react-router-dom'
 import './App.css'
 
 function App() {
@@ -8,7 +9,7 @@ function App() {
     <>
       <div className='split left'>
         <div className='school_name centered'>MTSU</div>
-        <div className='app_name'>UniConnect</div>
+        <div className='app_name centered'>UniConnect</div>
       </div>
 
       <div className='split right'>
