@@ -1,0 +1,27 @@
+.split_Sign{
+  height: 100%;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  overflow-x: hidden;
+  padding-top: 20px;
+}
+
+/* Control the left side */
+.left_Sign {
+  left: 0;
+  width: 55%;
+  background-color: #66AFEB;
+}
+
+/* Control the right side */
+.right_Sign {
+  right: 0;
+  width: 45%;
+  background-color: hsl(0, 0%, 98%);
+}
+
+.slogan{
+    font-size: 32px;
+    font-family: 'inter';
+}

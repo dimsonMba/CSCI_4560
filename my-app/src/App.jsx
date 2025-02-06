@@ -1,34 +1,19 @@
-import { useState } from 'react'
 import {BrowserRouter, Routes, Route, Link} from 'react-router-dom'
-import './App.css'
+import WelcomePage from './assets/components/welcome_page/WelcomePage';
+import SignIn from './assets/components/Sign_in/SignIn';
+import LogIn from './assets/components/Log_in/LogIn';
+import './App.css';
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <>
-      <div className='split left'>
-        <div className='school_name centered'>MTSU</div>
-        <div className='app_name centered'>UniConnect</div>
-      </div>
-
-      <div className='split right'>
-        <section className='welcome_Navbar'>
-          <button className='sign_in'>Sign in</button>
-          <button className='log_in'>Log in</button>
-        </section>
-
-        <div className='information_sign'>
-          <h1 className='classmate_h1'>Classmate, your friends, your Network</h1>
-          <p className='classmate_p'>Why wait until sophomore to build your team. Start now in your freshman year.</p>
-
-          <div className='div_but'>
-            <button className='sign_up_now'>Sign up now</button>
-          </div>
-        </div>
-      </div>
-    </>
-  )
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<WelcomePage />} />
+        <Route path="/sign_in" element={<SignIn />} />
+        <Route path="/log_in" element={<LogIn />} />
+      </Routes>
+    </BrowserRouter>
+  );
 }
 
-export default App
+export default App;
