@@ -114,8 +114,7 @@
 
 .div_but{
   display: inline;
-  margin: 100px;
-  padding-top: 5px;
+  
 }
 
 .sign_up_now{
@@ -126,4 +125,7 @@
   border-radius: 25px;
   border: 4px solid #82ADD6;
   color: #000000;
+  margin: 50px;
+  padding-top: 15px;
+  align-items: center;
 }
