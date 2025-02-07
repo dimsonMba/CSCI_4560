@@ -12,7 +12,10 @@ const SignIn = () => {
       </div>
 
       <div className='split_Sign right_Sign'>
-        <h1>food</h1>
+        <h1>Sign Up</h1>
+        <div>
+          
+        </div>
       </div>
     </>
     
