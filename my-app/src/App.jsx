@@ -1,7 +1,7 @@
 import {BrowserRouter, Routes, Route, Link} from 'react-router-dom'
-import WelcomePage from './assets/components/welcome_page/WelcomePage';
-import SignIn from './assets/components/Sign_in/SignIn';
-import LogIn from './assets/components/Log_in/LogIn';
+import WelcomePage from './assets/components/WelcomePage';
+import SignIn from './assets/components/SignIn';
+import LogIn from './assets/components/LogIn';
 
 function App() {
   return (

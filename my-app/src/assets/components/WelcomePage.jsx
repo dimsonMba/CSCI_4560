@@ -1,5 +1,4 @@
 import { Link } from 'react-router-dom'
-import './WelcomePage.css'
 import React from 'react'
 
 function WelcomePage() {
