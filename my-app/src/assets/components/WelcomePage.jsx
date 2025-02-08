@@ -25,13 +25,13 @@ function WelcomePage() {
     </section>
 
     <div className="information_sign text-center p-4">
-      <h1 className="classmate_h1 text-xl font-bold">Classmate, your friends, your Network</h1>
-      <p className="classmate_p text-gray-600 mt-2">
+      <h1 className="text-xl font-bold font-crimson">Classmate, your friends, your Network</h1>
+      <p className="text-gray-600 mt-2">
         Why wait until sophomore to build your team? Start now in your freshman year.
       </p>
 
-      <div className="div_but mt-4">
-        <button className="sign_up_now bg-red-500 text-white px-6 py-3 rounded">
+      <div className="mt-4">
+        <button className="bg-blue-400 text-black font-bold px-6 py-3 rounded font-[inter] text-[2rem] border-2 border-black px-5 py-2 rounded-[2rem]">
           Sign up now
         </button>
       </div>
