@@ -1,0 +1,131 @@
+.split{
+  height: 100%;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  overflow-x: hidden;
+  padding-top: 20px;
+}
+
+/* Control the left side */
+.left {
+  left: 0;
+  width: 55%;
+  background-color: #66AFEB;
+}
+
+/* Control the right side */
+.right {
+  right: 0;
+  width: 45%;
+  background-color: hsl(0, 0%, 98%);
+}
+
+/*centered the school name*/
+.centered {
+  position: relative;
+  top: 50%;
+  left: 50%;
+  justify-content: center;
+  align-items: center;
+  display: flex
+}
+
+/*change the name*/
+.school_name{
+  position: absolute;
+  color: #1f259b;
+  font-family: 'Inknut Antiqua', serif;
+  font-weight: 700;
+  font-size: 128px;
+  transform: translate(-50%, -50%);
+  
+}
+
+/*style the uniconnect*/
+.app_name{
+  position: absolute;
+  color: #000000;
+  font-family: 'Inknut Antiqua', serif;
+  font-weight: 700;
+  font-size: 40px;
+  transform: translate(13%, 50%);
+}
+
+/*To do the welcome navabar*/
+.welcome_Navbar{
+  border: 4px solid #000000;
+  border-radius: 45px;
+  padding: 20px;
+  margin-left: 15px;
+  margin-right: 15px;
+  background-color: #D9D9D9;
+  display: flex;
+  justify-content: space-between;
+}
+
+.sign_in{
+  background-color: #D9D9D9;
+  font-family: 'Inknut Antiqua', serif;
+  font-weight: 700;
+  font-size: 32px;
+  border-radius: 20px;
+  border: 4px solid #000000;
+  color: #000000;
+  justify-content: left;
+}
+
+.log_in{
+  background-color: #D9D9D9;
+  font-family: 'Inknut Antiqua', serif;
+  font-weight: 700;
+  font-size: 32px;
+  border-radius: 20px;
+  border: 4px solid #000000;
+  color: #000000;
+  justify-content: right;
+}
+
+.information_sign{
+  color: #000000;
+  margin: 70px 50px 50px 50px;
+  padding: 50px;
+  text-align: left;
+  position: absolute;
+  display: inline-block;
+}
+
+.classmate_h1{
+  font-family: 'Crimson Text';
+  font-weight: 700;
+  font-size: 40px;
+  padding-bottom: 0px;
+  text-shadow: 1px 1px 2px #000000;
+  margin-bottom: 10px;
+}
+
+.classmate_p{
+  font-family: 'Crimson Text';
+  font-weight: 200;
+  font-size: 24px;
+  margin: 0px 150px 15px 0px;
+  padding-bottom: 0px;
+}
+
+.div_but{
+  display: inline;
+  
+}
+
+.sign_up_now{
+  background-color: #66AFEB;
+  font-family: 'Inter', serif;
+  font-weight: 700;
+  font-size: 32px;
+  border-radius: 25px;
+  border: 4px solid #82ADD6;
+  color: #000000;
+  margin: 50px;
+  padding-top: 15px;
+  align-items: center;
+}

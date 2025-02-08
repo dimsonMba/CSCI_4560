@@ -383,6 +383,13 @@
     );
   }
 }
+@font-face {
+  font-family: 'Inkut Antiqua';
+  src: url('/fonts/InkutAntiqua.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
 @layer base {
   *, ::after, ::before, ::backdrop, ::file-selector-button {
     box-sizing: border-box;
