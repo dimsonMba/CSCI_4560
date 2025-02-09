@@ -48,7 +48,8 @@ module.exports = {
       },
       fontFamily: {
         inkut: ["Inkut Antiqua", "serif"],
-		crimson: ['Crimson Text', 'serif']
+        crimson: ["Crimson Text", "serif"],
+        caveat: ["Caveat", "cursive"],
       },
       borderRadius: {
         lg: "var(--radius)",
