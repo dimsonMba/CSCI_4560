@@ -12,25 +12,25 @@ const RegisterSchema = (type) => {
   const baseSchema = {
     "First name": z.string().min(3, { message: 'First name must be at least 3 characters' }),
     "Last name": z.string().min(3, { message: 'Last name must be at least 3 characters' }),
-    personalEmail: z.string().email({ message: 'Invalid email format' }),
-    mtsuEmail: z.string().email({ message: 'Invalid email format' }),
-    mNumber: z.string().min(6, { message: 'M Number must be at least 6 characters' }),
-    phoneNumber: z.string().min(10, { message: 'Phone number must be at least 10 digits' }),
+    "Personal Email": z.string().email({ message: 'Invalid email format' }),
+    "MTSU Email": z.string().email({ message: 'Invalid email format' }),
+    "MTSU Number": z.string().min(6, { message: 'M Number must be at least 6 characters' }),
+    "Phone Number": z.string().min(10, { message: 'Phone number must be at least 10 digits' }),
   };
 
   if (type === 'sign-up') {
     return z.object(baseSchema);
   } else if (type === 'sign-in') {
     return z.object({
-      username: z.string().min(3, { message: 'Enter your MTSU username' }),
-      password: z.string().min(6, { message: 'Password must be at least 6 characters' }),
+      "username": z.string().min(3, { message: 'Enter your MTSU username' }),
+      "password": z.string().min(6, { message: 'Password must be at least 6 characters' }),
     });
   } else if (type === 'register') {
     return z.object({
       ...baseSchema,
-      graduationYear: z.string().length(4, { message: 'Enter a valid 4-digit year' }),
-      major: z.string().min(3, { message: 'Choose your major' }),
-      password: z.string().min(6, { message: 'Password must be at least 6 characters' }),
+      "Graduation Year": z.string().length(4, { message: 'Enter a valid 4-digit year' }),
+      "Major": z.string().min(3, { message: 'Choose your major' }),
+      "Password": z.string().min(6, { message: 'Password must be at least 6 characters' }),
     });
   } else {
     throw new Error(`Unknown form type: ${type}`);
@@ -80,6 +80,7 @@ const AuthForm = ({ type }) => {
     try {
       // Simulate a successful submission
       setUser(data);
+      console.log(data)
     } catch (err) {
       setError(err.message || 'Submission failed. Please try again.');
     } finally {
@@ -108,6 +109,17 @@ const AuthForm = ({ type }) => {
             >
               {isLoading ? <Loader2 size={20} className="animate-spin" /> : type === 'sign-in' ? 'Sign In' : 'Sign Up'}
             </Button>
+
+            <div className='text-black text-1xl items-center overline'>
+              {type === 'sign-in' ? 
+                (<div>
+                  <h1>Hello World</h1>
+                </div>
+              ) : (
+                <div>
+                  <h1>Food</h1>
+                </div>)}
+            </div>
           </form>
         </Form>
       )}
