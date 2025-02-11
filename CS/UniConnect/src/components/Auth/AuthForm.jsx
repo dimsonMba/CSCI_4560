@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import RegisterForm from './RegisterForm';
 import { Button } from '../ui/button';
@@ -8,17 +8,53 @@ import { Loader2 } from 'lucide-react';
 import { Form } from '../ui/form';
 
 // Define schema dynamically
+const RegisterSchema = (type) => {
+  const baseSchema = {
+    "First name": z.string().min(3, { message: 'First name must be at least 3 characters' }),
+    "Last name": z.string().min(3, { message: 'Last name must be at least 3 characters' }),
+    personalEmail: z.string().email({ message: 'Invalid email format' }),
+    mtsuEmail: z.string().email({ message: 'Invalid email format' }),
+    mNumber: z.string().min(6, { message: 'M Number must be at least 6 characters' }),
+    phoneNumber: z.string().min(10, { message: 'Phone number must be at least 10 digits' }),
+  };
+
+  if (type === 'sign-up') {
+    return z.object(baseSchema);
+  } else if (type === 'sign-in') {
+    return z.object({
+      username: z.string().min(3, { message: 'Enter your MTSU username' }),
+      password: z.string().min(6, { message: 'Password must be at least 6 characters' }),
+    });
+  } else if (type === 'register') {
+    return z.object({
+      ...baseSchema,
+      graduationYear: z.string().length(4, { message: 'Enter a valid 4-digit year' }),
+      major: z.string().min(3, { message: 'Choose your major' }),
+      password: z.string().min(6, { message: 'Password must be at least 6 characters' }),
+    });
+  } else {
+    throw new Error(`Unknown form type: ${type}`);
+  }
+};
+
+// Define form schemas object
 const formSchemas = {
-  "sign-up": z.object({
-    firstName: z.string().min(3, 'First name must be at least 3 characters'),
-    lastName: z.string().min(3, 'Last name must be at least 3 characters'),
-    email: z.string().email('Invalid email format'),
-    password: z.string().min(6, 'Password must be at least 6 characters'),
-  }),
-  "sign-in": z.object({
-    email: z.string().email('Invalid email format'),
-    password: z.string().min(6, 'Password must be at least 6 characters'),
-  }),
+  'sign-up': RegisterSchema('sign-up'),
+  'sign-in': RegisterSchema('sign-in'),
+  'register': RegisterSchema('register'),
+};
+
+// Function to generate default values based on the schema
+const generateDefaultValues = (schema) => {
+  const defaultValues = {};
+  const shape = schema.shape; // Extract the shape of the schema
+
+  // Iterate over the schema's shape and set default values
+  Object.keys(shape).forEach((key) => {
+    defaultValues[key] = ''; // Set default value as an empty string
+  });
+
+  return defaultValues;
 };
 
 const AuthForm = ({ type }) => {
@@ -30,20 +66,22 @@ const AuthForm = ({ type }) => {
 
   const form = useForm({
     resolver: zodResolver(formSchema),
-    defaultValues: type === "sign-up" ? { firstName: "", lastName: "", email: "", password: "" } : { email: "", password: "" },
+    defaultValues: generateDefaultValues(formSchema), // Generate default values dynamically
   });
 
+  // Reset the form when the `type` changes
   useEffect(() => {
-    form.reset(type === "sign-up" ? { firstName: "", lastName: "", email: "", password: "" } : { email: "", password: "" });
-  }, [type]);
+    form.reset(generateDefaultValues(formSchema));
+  }, [type, form, formSchema]);
 
   const onSubmit = async (data) => {
     setIsLoading(true);
     setError(null);
     try {
+      // Simulate a successful submission
       setUser(data);
-    } catch (error) {
-      setError('Submission failed. Please try again.');
+    } catch (err) {
+      setError(err.message || 'Submission failed. Please try again.');
     } finally {
       setIsLoading(false);
     }
@@ -57,14 +95,18 @@ const AuthForm = ({ type }) => {
       <p className="text-gray-600">{user ? 'Link your account to get started' : 'Please enter your details'}</p>
 
       {user ? (
-        <div className="mt-4"> {/* Account linking UI can go here */} </div>
+        <div className="mt-4">{/* Account linking UI can go here */}</div>
       ) : (
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2 w-[20rem]">
             <RegisterForm control={form.control} type={type} />
 
-            <Button type="submit" className="w-full p-2 rounded bg-blue-500 text-white" disabled={isLoading}>
-              {isLoading ? <Loader2 size={20} className="animate-spin" /> : type === "sign-in" ? "Sign In" : "Sign Up"}
+            <Button
+              type="submit"
+              className="w-full p-2 rounded bg-blue-500 text-white text-2xl text-black"
+              disabled={isLoading}
+            >
+              {isLoading ? <Loader2 size={20} className="animate-spin" /> : type === 'sign-in' ? 'Sign In' : 'Sign Up'}
             </Button>
           </form>
         </Form>

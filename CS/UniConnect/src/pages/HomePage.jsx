@@ -14,8 +14,8 @@ const HomePage = () => {
 
         <div className="flex flex-col bg-gray-100 items-center">
           <section className="flex border-2 border-black px-4 py-5 rounded-[2rem] w-[90%] mx-auto mt-5 bg-[#D9D9D9] justify-between">
-            <Link to="/sign_in">
-              <Button className="bg-blue-400 text-black border-2 border-black px-6 py-5 rounded-[1rem] hover:bg-blue-100 cursor-pointer">Sign In</Button>
+            <Link to="/sign_up">
+              <Button className="bg-blue-400 text-black border-2 border-black px-6 py-5 rounded-[1rem] hover:bg-blue-100 cursor-pointer">Sign Up</Button>
             </Link>
             <Link to="/log_in">
               <Button className="bg-blue-400 text-black border-2 border-black px-6 py-5 rounded-[1rem] hover:bg-blue-100 cursor-pointer">Log In</Button>
@@ -29,9 +29,11 @@ const HomePage = () => {
           </div>
 
           <div className="mt-4">
-            <Button className=" py-10 px-8 bg-blue-400 font-bold text-black rounded-[10rem] text-[2.5rem] hover:bg-blue-200 cursor-pointer border-5 border-blue">
-              Sign Up Now
-            </Button>
+            <Link to= "/sign_up">
+              <Button className=" py-10 px-8 bg-blue-400 font-bold text-black rounded-[10rem] text-[2.5rem] hover:bg-blue-200 cursor-pointer border-5 border-blue">
+                Sign Up Now
+              </Button>
+            </Link>
           </div>
         </div>
       </div>

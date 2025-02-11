@@ -13,11 +13,11 @@ const RegisterForm = ({ control }) => {
           name={fieldName}
           render={({ field }) => (
             <FormItem className="space-y-2">
-              <FormLabel className="text-gray-700 font-medium">{fieldName}</FormLabel>
+              <FormLabel className="text-gray-900 font-medium">{fieldName}</FormLabel>
               <FormControl>
                 <Input
                   placeholder={`Enter ${fieldName}`}
-                  className="w-full p-2 border rounded text-black"
+                  className="w-full p-3 border rounded text-black"
                   type={fieldName === "password" ? "password" : fieldName === "email" ? "email" : "text"}
                   {...field}
                 />
