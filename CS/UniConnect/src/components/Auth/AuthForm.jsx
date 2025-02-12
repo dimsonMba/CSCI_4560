@@ -6,6 +6,7 @@ import RegisterForm from './RegisterForm';
 import { Button } from '../ui/button';
 import { Loader2 } from 'lucide-react';
 import { Form } from '../ui/form';
+import { Link } from 'react-router-dom';
 
 // Define schema dynamically
 const RegisterSchema = (type) => {
@@ -25,13 +26,6 @@ const RegisterSchema = (type) => {
       "username": z.string().min(3, { message: 'Enter your MTSU username' }),
       "password": z.string().min(6, { message: 'Password must be at least 6 characters' }),
     });
-  } else if (type === 'register') {
-    return z.object({
-      ...baseSchema,
-      "Graduation Year": z.string().length(4, { message: 'Enter a valid 4-digit year' }),
-      "Major": z.string().min(3, { message: 'Choose your major' }),
-      "Password": z.string().min(6, { message: 'Password must be at least 6 characters' }),
-    });
   } else {
     throw new Error(`Unknown form type: ${type}`);
   }
@@ -41,7 +35,6 @@ const RegisterSchema = (type) => {
 const formSchemas = {
   'sign-up': RegisterSchema('sign-up'),
   'sign-in': RegisterSchema('sign-in'),
-  'register': RegisterSchema('register'),
 };
 
 // Function to generate default values based on the schema
@@ -80,7 +73,7 @@ const AuthForm = ({ type }) => {
     try {
       // Simulate a successful submission
       setUser(data);
-      console.log(data)
+      console.log(data);
     } catch (err) {
       setError(err.message || 'Submission failed. Please try again.');
     } finally {
@@ -89,18 +82,34 @@ const AuthForm = ({ type }) => {
   };
 
   return (
-    <section className="max-w-md mx-auto p-6 bg-white rounded-lg shadow-md">
+    <section className="max-w-md mx-auto p-6 bg-white rounded-lg shadow-md justify-items-center">
       <h1 className="text-2xl font-semibold text-gray-900">
         {user ? 'Link Account' : type === 'sign-in' ? 'Sign In' : 'Sign Up'}
       </h1>
       <p className="text-gray-600">{user ? 'Link your account to get started' : 'Please enter your details'}</p>
 
-      {user ? (
-        <div className="mt-4">{/* Account linking UI can go here */}</div>
-      ) : (
-        <Form {...form}>
+      {type === "sign-in" ? (
+        <div className="mt-4">
+          <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2 w-[20rem]">
-            <RegisterForm control={form.control} type={type} />
+            {/* Render fields dynamically based on the schema */}
+            <RegisterForm
+              register={form.register}
+              name="Username"
+              placeholder="Enter your MTSU Username"
+            />
+            {form.formState.errors["username"] && (
+              <p className="text-red-500">{form.formState.errors["username"].message}</p>
+            )}
+
+            <RegisterForm
+              register={form.register}
+              name="Password"
+              placeholder="Enter your password"
+            />
+            {form.formState.errors["password"] && (
+              <p className="text-red-500">{form.formState.errors["password"].message}</p>
+            )}
 
             <Button
               type="submit"
@@ -109,20 +118,66 @@ const AuthForm = ({ type }) => {
             >
               {isLoading ? <Loader2 size={20} className="animate-spin" /> : type === 'sign-in' ? 'Sign In' : 'Sign Up'}
             </Button>
-
-            <div className='text-black text-1xl items-center overline'>
-              {type === 'sign-in' ? 
-                (<div>
-                  <h1>Hello World</h1>
-                </div>
-              ) : (
-                <div>
-                  <h1>Food</h1>
-                </div>)}
+          </form>
+        </Form>
+        </div>
+      ) : (
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2 w-[20rem]">
+            {/* Render fields dynamically based on the schema */}
+            <div>
+              <RegisterForm
+              register={form.register}
+              name="First name"
+              placeholder="Enter your First name"
+              />
+              
+                <RegisterForm
+                register={form.register}
+                name="Last name"
+                placeholder="Enter your Last name"
+              />
+            
             </div>
+            
+
+            <RegisterForm
+              register={form.register}
+              name="Personal Email"
+              placeholder="Enter your personal email"
+            />
+            {form.formState.errors["Personal Email"] && (
+              <p className="text-red-500">{form.formState.errors["Personal Email"].message}</p>
+            )}
+
+            <Button
+              type="submit"
+              className="w-full p-2 rounded bg-blue-500 text-white text-2xl text-black"
+              disabled={isLoading}
+            >
+              {isLoading ? <Loader2 size={20} className="animate-spin" /> : type === 'sign-in' ? 'Sign In' : 'Sign Up'}
+            </Button>
           </form>
         </Form>
       )}
+
+      <div className='text-black flex'>
+        {type === 'sign-in' ? (
+          <div className='flex flex-1'>
+            <h1 className='text-sm mt-[1rem] flex-1 w-[17.5rem]'>Don't have an account? </h1>
+            <a className='flex-1 mt-[1rem]'>
+              <Link to="/sign_up">Sign up</Link>
+            </a>
+          </div>
+        ) : (
+          <div className='flex'>
+            <h1 className='text-sm mt-[1rem] flex-1 w-[25rem]'>Do you already have an account?</h1>
+            <a className='flex-1 mt-[1rem]'>
+              <Link to="/log_in">Log in</Link>
+            </a>
+          </div>
+        )}
+      </div>
 
       {error && <p className="text-red-500 mt-2">{error}</p>}
     </section>
