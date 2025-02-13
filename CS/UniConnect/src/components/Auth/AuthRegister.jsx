@@ -41,8 +41,15 @@ const AuthRegister = () => {
   const form = useForm({
     resolver: zodResolver(formSchemas['register']),
     defaultValues: {
+      "First name": '',
       "Last name": '',
       "Personal Email": '',
+      "MTSU Email": '',
+      "MTSU Number": '',
+      "Phone Number": '',
+      "Graduation Year": '',
+      "Major": '',
+      "Password": '',
     },
   });
 
@@ -50,10 +57,15 @@ const AuthRegister = () => {
   const onSubmit = async (data) => {
     setIsLoading(true);
     setError(null);
+
+    // Log form data and errors for debugging
+    console.log('Form data:', data);
+    console.log('Form errors:', form.formState.errors);
+
     try {
       // Simulate a successful submission
       setUser(data);
-      console.log(data);
+      console.log('Form submitted successfully:', data);
     } catch (err) {
       setError(err.message || 'Submission failed. Please try again.');
     } finally {
@@ -61,33 +73,82 @@ const AuthRegister = () => {
     }
   };
 
+  // Log form state for debugging
+  // console.log('Form state:', form.formState);
+
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-        {/* Render the "Last name" field */}
-        <RegisterForm
-          register={form.register}
-          name="Last name"
-          placeholder="Enter your last name"
-        />
-        {form.formState.errors["Last name"] && (
-          <p className="text-red-500">{form.formState.errors["Last name"].message}</p>
-        )}
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 w-[30rem]">
+        {/* Render the "First name" and "Last name" fields */}
+        <div className="flex gap-4">
+          <RegisterForm
+            register={form.register}
+            name="First name"
+            placeholder="Enter your first name"
+          />
 
-        {/* Render the "Personal Email" field */}
-        <RegisterForm
-          register={form.register}
-          name="Personal Email"
-          placeholder="Enter your personal email"
-        />
-        {form.formState.errors["Personal Email"] && (
-          <p className="text-red-500">{form.formState.errors["Personal Email"].message}</p>
-        )}
+          <RegisterForm
+            register={form.register}
+            name="Last name"
+            placeholder="Enter your last name"
+          />
+        </div>
+
+        {/* Render the "MTSU Number" and "Graduation Year" fields */}
+        <div className="flex gap-4">
+          <RegisterForm
+            register={form.register}
+            name="MTSU Number"
+            placeholder="Enter your MTSU ID"
+          />
+
+          <RegisterForm
+            register={form.register}
+            name="Graduation Year"
+            placeholder="Ex: 2027"
+          />
+        </div>
+
+        {/* Render the "Personal Email" and "MTSU Email" fields */}
+        <div className="flex gap-4">
+          <RegisterForm
+            register={form.register}
+            name="Personal Email"
+            placeholder="Ex: jhn@gmail.com"
+          />
+
+          <RegisterForm
+            register={form.register}
+            name="MTSU Email"
+            placeholder="Ex: jhn@mtmail.mtsu.edu"
+          />
+        </div>
+
+        {/* Render the "Major" field */}
+        <div>
+          <RegisterForm
+            register={form.register}
+            name="Major"
+            placeholder="Ex: Computer Science"
+          />
+        </div>
+
+        {/* Render the "Phone Number" field */}
+        <div>
+          <RegisterForm
+            register={form.register}
+            name="Phone Number"
+            placeholder="Ex: 1111111111"
+          />
+        </div>
 
         {/* Submit button */}
-        <Button type="submit" disabled={isLoading}>
-          {isLoading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
-          Submit
+        <Button
+          type="submit"
+          className="w-full p-2 rounded bg-blue-500 text-white text-2xl text-black"
+          disabled={isLoading}
+        >
+          {isLoading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : 'Register'}
         </Button>
 
         {/* Display error message */}

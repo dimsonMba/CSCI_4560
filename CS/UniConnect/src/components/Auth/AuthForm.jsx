@@ -11,12 +11,12 @@ import { Link } from 'react-router-dom';
 // Define schema dynamically
 const RegisterSchema = (type) => {
   const baseSchema = {
-    "First name": z.string().min(3, { message: 'First name must be at least 3 characters' }),
-    "Last name": z.string().min(3, { message: 'Last name must be at least 3 characters' }),
+    "First name": z.string().min(3, { message: 'At least 3 characters' }),
+    "Last name": z.string().min(3, { message: 'At least 3 characters' }),
     "Personal Email": z.string().email({ message: 'Invalid email format' }),
     "MTSU Email": z.string().email({ message: 'Invalid email format' }),
-    "MTSU Number": z.string().min(6, { message: 'M Number must be at least 6 characters' }),
-    "Phone Number": z.string().min(10, { message: 'Phone number must be at least 10 digits' }),
+    "MTSU Number": z.string().min(6, { message: 'At least 6 characters' }),
+    "Phone Number": z.string().min(10, { message: 'At least 10 digits' }),
   };
 
   if (type === 'sign-up') {
@@ -81,6 +81,76 @@ const AuthForm = ({ type }) => {
     }
   };
 
+  const renderFormFields = () => {
+    if (type === 'sign-in') {
+      return (
+        <>
+          <RegisterForm
+            register={form.register}
+            name="username"
+            placeholder="Enter your MTSU Username"
+          />
+
+          <RegisterForm
+            register={form.register}
+            name="password"
+            placeholder="Enter your password"
+          />
+        </>
+      );
+    } else if (type === 'sign-up') {
+      return (
+        <>
+          <div className="flex gap-4">
+            <RegisterForm
+              register={form.register}
+              name="First name"
+              placeholder="Enter your First name"
+            />
+
+            <RegisterForm
+              register={form.register}
+              name="Last name"
+              placeholder="Enter your Last name"
+            />
+          </div>
+
+          <div className="flex gap-4">
+            <RegisterForm
+              register={form.register}
+              name="MTSU Number"
+              placeholder="Your M-number"
+            />
+
+            <RegisterForm
+              register={form.register}
+              name="Phone Number"
+              placeholder="Ex: 1111111111"
+            />
+          </div>
+
+          <div>
+            <RegisterForm
+              register={form.register}
+              name="Personal Email"
+              placeholder="Enter your personal email"
+            />
+          </div>
+
+          <div>
+            <RegisterForm
+              register={form.register}
+              name="MTSU Email"
+              placeholder="Enter your MTSU email"
+            />
+          </div>
+        </>
+      );
+    }
+  };
+
+  const buttonText = type === 'sign-in' ? 'Sign In' : 'Sign Up';
+
   return (
     <section className="max-w-md mx-auto p-6 bg-white rounded-lg shadow-md justify-items-center">
       <h1 className="text-2xl font-semibold text-gray-900">
@@ -88,91 +158,32 @@ const AuthForm = ({ type }) => {
       </h1>
       <p className="text-gray-600">{user ? 'Link your account to get started' : 'Please enter your details'}</p>
 
-      {type === "sign-in" ? (
-        <div className="mt-4">
-          <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2 w-[20rem]">
-            {/* Render fields dynamically based on the schema */}
-            <RegisterForm
-              register={form.register}
-              name="Username"
-              placeholder="Enter your MTSU Username"
-            />
-            {form.formState.errors["username"] && (
-              <p className="text-red-500">{form.formState.errors["username"].message}</p>
-            )}
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 w-[25rem]">
+          {renderFormFields()}
 
-            <RegisterForm
-              register={form.register}
-              name="Password"
-              placeholder="Enter your password"
-            />
-            {form.formState.errors["password"] && (
-              <p className="text-red-500">{form.formState.errors["password"].message}</p>
-            )}
+          <Button
+            type="submit"
+            className="w-full p-2 rounded bg-blue-500 text-white text-2xl text-black"
+            disabled={isLoading}
+          >
+            {isLoading ? <Loader2 size={20} className="animate-spin" /> : buttonText}
+          </Button>
+        </form>
+      </Form>
 
-            <Button
-              type="submit"
-              className="w-full p-2 rounded bg-blue-500 text-white text-2xl text-black"
-              disabled={isLoading}
-            >
-              {isLoading ? <Loader2 size={20} className="animate-spin" /> : type === 'sign-in' ? 'Sign In' : 'Sign Up'}
-            </Button>
-          </form>
-        </Form>
-        </div>
-      ) : (
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2 w-[20rem]">
-            {/* Render fields dynamically based on the schema */}
-            <div>
-              <RegisterForm
-              register={form.register}
-              name="First name"
-              placeholder="Enter your First name"
-              />
-              
-                <RegisterForm
-                register={form.register}
-                name="Last name"
-                placeholder="Enter your Last name"
-              />
-            
-            </div>
-            
-
-            <RegisterForm
-              register={form.register}
-              name="Personal Email"
-              placeholder="Enter your personal email"
-            />
-            {form.formState.errors["Personal Email"] && (
-              <p className="text-red-500">{form.formState.errors["Personal Email"].message}</p>
-            )}
-
-            <Button
-              type="submit"
-              className="w-full p-2 rounded bg-blue-500 text-white text-2xl text-black"
-              disabled={isLoading}
-            >
-              {isLoading ? <Loader2 size={20} className="animate-spin" /> : type === 'sign-in' ? 'Sign In' : 'Sign Up'}
-            </Button>
-          </form>
-        </Form>
-      )}
-
-      <div className='text-black flex'>
+      <div className="text-black flex">
         {type === 'sign-in' ? (
-          <div className='flex flex-1'>
-            <h1 className='text-sm mt-[1rem] flex-1 w-[17.5rem]'>Don't have an account? </h1>
-            <a className='flex-1 mt-[1rem]'>
+          <div className="flex flex-1">
+            <h1 className="text-sm mt-[1rem] flex-1 w-[17.5rem]">Don't have an account? </h1>
+            <a className="flex-1 mt-[1rem]">
               <Link to="/sign_up">Sign up</Link>
             </a>
           </div>
         ) : (
-          <div className='flex'>
-            <h1 className='text-sm mt-[1rem] flex-1 w-[25rem]'>Do you already have an account?</h1>
-            <a className='flex-1 mt-[1rem]'>
+          <div className="flex gap-0">
+            <h1 className="text-sm mt-[1rem] flex w-[15rem]">Do you already have an account?</h1>
+            <a className="flex mt-[1rem]">
               <Link to="/log_in">Log in</Link>
             </a>
           </div>

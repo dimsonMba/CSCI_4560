@@ -21,23 +21,21 @@ const RegisterPage = () => {
               
 
               <div className='flex items-center gap-10'>
-                <Button className="bg-blue-400 text-black border-2 border-black px-6 py-5 rounded-[1rem] hover:bg-blue-100 cursor-pointer">Sign Up</Button>
+                <Link>
+                  <Button className="bg-blue-400 text-black border-2 border-black px-6 py-5 rounded-[1rem] hover:bg-blue-100 cursor-pointer">Support</Button>
+                </Link>
                 
-              
-                <Button className="bg-blue-400 text-black border-2 border-black px-6 py-5 rounded-[1rem] hover:bg-blue-100 cursor-pointer">Log In</Button>
+                <Link to="/log_in">
+                  <Button className="bg-blue-400 text-black border-2 border-black px-6 py-5 rounded-[1rem] hover:bg-blue-100 cursor-pointer">Log In</Button>
+                </Link>
               </div>
             
-                
               </section>
               <section>
-                <div className="mt-[150px] items-center ml-[70px] mr-[70px] inline-block p-[70px]">
+                <div className="items-center ml-[70px] mr-[70px] inline-block p-[10px]">
                   <AuthRegister/>
                 </div>
               </section>
-                <div className="mt-[150px] items-center ml-[70px] mr-[70px] inline-block p-[70px]">
-                
-              
-                </div>
     
             </div>
           </div>
