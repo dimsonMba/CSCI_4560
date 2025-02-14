@@ -12,6 +12,7 @@ function App() {
         <Route path="/sign_up" element={<SignIn />} />
         <Route path="/log_in" element={<LogIn />} />
         <Route path="/register_page" element={<RegisterPage/>}/>
+        {/*Find a way to fetch*/}
       </Routes>
     </BrowserRouter>
   )
