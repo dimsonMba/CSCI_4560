@@ -4,7 +4,9 @@
 GitHub ReadME for the CSCI_4560 project: UniConnect
 We will use this repository to keep our code safe. 
 
-Figma links:
+This application is a university-focused social media platform that connects students within the same major. By verifying enrollment through the university database, it ensures that only current students can join. Once verified, users can create profiles, find classmates, and start conversations about coursework, projects, and professional opportunities, and this is done all within a secure and user-friendly environment.
+
+Figma link:
 https://www.figma.com/design/gu8YakWlMIbWSLjdcPrize/UI-Design?node-id=0-1&t=L31ddpD28V5f9vKz-1
 
 This program is wrote by Tyler Knapp, Dimitri Nanmejo, Kirolous Kamel, and Alex Paduch
