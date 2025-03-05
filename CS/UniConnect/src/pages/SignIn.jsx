@@ -2,6 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import AuthForm from '@/components/Auth/AuthForm';
+import { Icon } from 'lucide-react';
 
 
 
@@ -9,37 +10,24 @@ import AuthForm from '@/components/Auth/AuthForm';
 const SignIn = () => {
   return (
     <div>
-      <div className="grid h-screen w-screen grid-cols-[60%_40%]">
-        <div className="bg-blue-400 flex flex-col items-center justify-center w-full relative">
-
-          {/* Clickable Image (Back to Home) */}
-          <section className="flex items-center justify-center">
-            <Link to="/" className="cursor-pointer">
-              <img className="w-[8rem] h-[6rem] mb-[7rem]" src="/chat_icon.jpg" alt="Home" />
-            </Link>
-            <h1 className="font-[inter] text-[2rem] font-normal text-black mt-2">
-              Keep your friends and network closer
-            </h1>
-          </section>
-
-          {/* MTSU Section */}
-          <section className="absolute bottom-3 right-3 justify-end">
-            <h1 className="relative font-bold text-[32px] text-black right-7">MTSU</h1>
-            <div className="flex items-center gap-2">
-              <p className="text-blue-800 text-[14px] font-bold mt-[-3.5rem]" style={{ fontFamily: "Caveat, cursive" }}>
-                Stay true blue
-              </p>
-              <img src="/lightning.jpg" alt="MTSU Lightning" />
-            </div>
-          </section>
-        </div>
-
+      <div className="bg-white grid h-screen w-screen grid-cols-[50%_50%]">
         {/* Sign Up Section */}
-        <div className="flex flex-col bg-gray-100 justify-center items-center">
+        <div className="h-full flex flex-col justify-center items-center">
           <section>
             <AuthForm type={"sign-up"}/>
           </section>
         </div>
+
+        <div className="bg-[#38B6FF] flex flex-col items-center justify-center relative rounded-l-[45px]">
+
+          {/* Clickable Image (Back to Home) */}
+
+          {/* MTSU Section */}
+          <section className="absolut justify-center">
+            <img className="w-[428px] h-[420px] aspect-auto" src="Blue Minimalist Chat Bubble.jpg"/>
+          </section>
+        </div>
+
       </div>
     </div>
   )

@@ -152,11 +152,27 @@ const AuthForm = ({ type }) => {
   const buttonText = type === 'sign-in' ? 'Sign In' : 'Sign Up';
 
   return (
-    <section className="max-w-md mx-auto p-6 bg-white rounded-lg shadow-md justify-items-center">
-      <h1 className="text-2xl font-semibold text-gray-900">
-        {user ? 'Link Account' : type === 'sign-in' ? 'Sign In' : 'Sign Up'}
-      </h1>
-      <p className="text-gray-600">{user ? 'Link your account to get started' : 'Please enter your details'}</p>
+    <section className="max-w-md mx-auto p-6 justify-items-center">
+      <h3 className="text-black text-2xl font-bold">
+        {user ? 'Link Account' : type === 'sign-in' ? 
+          "Welcome back!"
+          : 
+          "Get Started Now"
+        }
+      </h3>
+      <p className="text-gray-600">
+        {user ? 'Link your account to get started' : type === 'sign-in' ?
+          <>
+            <p>Connect with classmates in your majore eefortlessly</p>
+          </>
+          :
+          <>
+            <p>Connect with classmates in your majore eefortlessly</p>
+            <p>Join real-time group chats, build friendships, and enhance your university experience</p>
+          </>
+        }
+      
+      </p>
 
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 w-[25rem]">
