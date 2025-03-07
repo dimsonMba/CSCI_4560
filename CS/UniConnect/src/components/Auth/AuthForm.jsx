@@ -7,6 +7,8 @@ import { Button } from '../ui/button';
 import { Loader2 } from 'lucide-react';
 import { Form } from '../ui/form';
 import { Link } from 'react-router-dom';
+import { Checkbox } from '../ui/checkbox';
+import { Label } from '../ui/label';
 
 // Define schema dynamically
 const RegisterSchema = (type) => {
@@ -96,6 +98,10 @@ const AuthForm = ({ type }) => {
             name="password"
             placeholder="Enter your password"
           />
+          <div className="flex items-center space-x-2">
+            <Checkbox id="terms" className="w-4 h-4 text-blue-600" />
+            <Label htmlFor="terms" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-black">Remember for 30 days</Label>
+          </div>
         </>
       );
     } else if (type === 'sign-up') {
@@ -160,14 +166,14 @@ const AuthForm = ({ type }) => {
           "Get Started Now"
         }
       </h3>
-      <p className="text-gray-600">
+      <p className="text-gray-600 text-center pt-2 pr-8 pl-8 pb-2">
         {user ? 'Link your account to get started' : type === 'sign-in' ?
           <>
-            <p>Connect with classmates in your majore eefortlessly</p>
+            <p>Enter your credentials to access your account</p>
           </>
           :
           <>
-            <p>Connect with classmates in your majore eefortlessly</p>
+            <p>Connect with classmates in your majore efortlessly.</p>
             <p>Join real-time group chats, build friendships, and enhance your university experience</p>
           </>
         }
