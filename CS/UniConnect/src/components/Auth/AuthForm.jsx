@@ -15,10 +15,8 @@ const RegisterSchema = (type) => {
   const baseSchema = {
     "First name": z.string().min(3, { message: 'At least 3 characters' }),
     "Last name": z.string().min(3, { message: 'At least 3 characters' }),
-    "Personal Email": z.string().email({ message: 'Invalid email format' }),
     "MTSU Email": z.string().email({ message: 'Invalid email format' }),
     "MTSU Number": z.string().min(6, { message: 'At least 6 characters' }),
-    "Phone Number": z.string().min(10, { message: 'At least 10 digits' }),
   };
 
   if (type === 'sign-up') {
@@ -99,8 +97,8 @@ const AuthForm = ({ type }) => {
             placeholder="Enter your password"
           />
           <div className="flex items-center space-x-2">
-            <Checkbox id="terms" className="w-4 h-4 text-blue-600" />
-            <Label htmlFor="terms" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-black">Remember for 30 days</Label>
+            <Checkbox id="terms"/>
+            <Label htmlFor="terms" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">Remember for 30 days</Label>
           </div>
         </>
       );
@@ -111,35 +109,19 @@ const AuthForm = ({ type }) => {
             <RegisterForm
               register={form.register}
               name="First name"
-              placeholder="Enter your First name"
+              placeholder="Ex: John"
             />
 
             <RegisterForm
               register={form.register}
               name="Last name"
-              placeholder="Enter your Last name"
+              placeholder="Ex: James"
             />
-          </div>
 
-          <div className="flex gap-4">
             <RegisterForm
               register={form.register}
               name="MTSU Number"
-              placeholder="Your M-number"
-            />
-
-            <RegisterForm
-              register={form.register}
-              name="Phone Number"
-              placeholder="Ex: 1111111111"
-            />
-          </div>
-
-          <div>
-            <RegisterForm
-              register={form.register}
-              name="Personal Email"
-              placeholder="Enter your personal email"
+              placeholder="Ex: 012345"
             />
           </div>
 
@@ -166,7 +148,7 @@ const AuthForm = ({ type }) => {
           "Get Started Now"
         }
       </h3>
-      <p className="text-gray-600 text-center pt-2 pr-8 pl-8 pb-2">
+      <p className="font-bold text-gray-600 text-center pt-2 pr-4 pl-4 pb-4">
         {user ? 'Link your account to get started' : type === 'sign-in' ?
           <>
             <p>Enter your credentials to access your account</p>
@@ -186,7 +168,7 @@ const AuthForm = ({ type }) => {
 
           <Button
             type="submit"
-            className="w-full p-2 rounded bg-blue-500 text-white text-2xl text-black"
+            className="w-full p-2 rounded bg-blue-500 text-white text-2xl text-black bg-[#38B6FF]"
             disabled={isLoading}
           >
             {isLoading ? <Loader2 size={20} className="animate-spin" /> : buttonText}
@@ -203,11 +185,27 @@ const AuthForm = ({ type }) => {
             </a>
           </div>
         ) : (
-          <div className="flex gap-0">
-            <h1 className="text-sm mt-[1rem] flex w-[15rem]">Do you already have an account?</h1>
-            <a className="flex mt-[1rem]">
-              <Link to="/log_in">Log in</Link>
-            </a>
+          <div className="grid gap-0 justify-items-center">
+            <section className='pt-[2rem] pb-[1rem]'>
+              <img src='Frame 61.jpg'/>
+            </section>
+
+            <section className='flex pb-[1rem]'>
+              <Button className="bg-white hover:focus:ring-4">
+                <img src='Frame 60.jpg'/>
+              </Button>
+              <Button className="bg-white">
+                <img src='Frame 62.jpg'/>
+              </Button>
+            </section>
+
+            <section className='flex gap-2'>
+              <h1 className="text-sm">Do you already have an account?</h1>
+              <a>
+                <Link to="/log_in">Sign In</Link>
+              </a>
+            </section>
+            
           </div>
         )}
       </div>

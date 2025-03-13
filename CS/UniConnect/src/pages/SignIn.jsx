@@ -12,7 +12,7 @@ const SignIn = () => {
     <div>
       <div className="bg-white grid h-screen w-screen grid-cols-[50%_50%]">
         {/* Sign Up Section */}
-        <div className="h-full flex flex-col justify-center items-center">
+        <div className="h-full h-screen flex flex-col justify-center items-center">
           <section>
             <AuthForm type={"sign-up"}/>
           </section>
