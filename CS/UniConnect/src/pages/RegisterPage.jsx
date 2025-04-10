@@ -1,44 +1,29 @@
 import AuthRegister from '@/components/Auth/AuthRegister'
 import React from 'react'
-import { Button } from '@/components/ui/button';
-import { Link } from 'react-router-dom';
-
 const RegisterPage = () => {
   return (
   <>
-    <div className="grid w-screen h-screen grid-cols">
-    
-            <div className="flex flex-col bg-gray-100 items-center">
-              <section className="flex border-2 border-black px-4 py-5 rounded-[2rem] w-[90%] mx-auto mt-5 bg-[#7CB3E0] justify-between">
-              <div className='flex items-center'>
-                <Link to="/">
-                  <img className="w-[6rem] h-[4rem]" src="/chat_icon.jpg" alt="Home" />
-                </Link>
-                <div>
-                  <span className='text-black text-[1rem]'>Uniconnect</span>
-                </div>
-              </div>
-              
+    <div>
+      <div className="bg-white grid h-screen w-screen grid-cols-[50%_50%]">
+        {/* Sign Up Section */}
+        <div className="h-full flex flex-col justify-center items-center">
+          <section>
+            <AuthRegister/>
+          </section>
+        </div>
 
-              <div className='flex items-center gap-10'>
-                <Link>
-                  <Button className="bg-blue-400 text-black border-2 border-black px-6 py-5 rounded-[1rem] hover:bg-blue-100 cursor-pointer">Support</Button>
-                </Link>
-                
-                <Link to="/log_in">
-                  <Button className="bg-blue-400 text-black border-2 border-black px-6 py-5 rounded-[1rem] hover:bg-blue-100 cursor-pointer">Log In</Button>
-                </Link>
-              </div>
-            
-              </section>
-              <section>
-                <div className="items-center ml-[70px] mr-[70px] inline-block p-[10px]">
-                  <AuthRegister/>
-                </div>
-              </section>
-    
-            </div>
-          </div>
+        <div className="bg-[#38B6FF] flex flex-col items-center justify-center relative rounded-l-[45px]">
+
+          {/* Clickable Image (Back to Home) */}
+
+          {/* MTSU Section */}
+          <section className="absolut justify-center">
+            <img className="w-[428px] h-[420px] aspect-auto" src="Blue Minimalist Chat Bubble.jpg"/>
+          </section>
+        </div>
+
+      </div>
+    </div>
   </>
 );
 }

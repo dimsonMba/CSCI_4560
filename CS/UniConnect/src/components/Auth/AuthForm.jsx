@@ -7,16 +7,16 @@ import { Button } from '../ui/button';
 import { Loader2 } from 'lucide-react';
 import { Form } from '../ui/form';
 import { Link } from 'react-router-dom';
+import { Checkbox } from '../ui/checkbox';
+import { Label } from '../ui/label';
 
 // Define schema dynamically
 const RegisterSchema = (type) => {
   const baseSchema = {
     "First name": z.string().min(3, { message: 'At least 3 characters' }),
     "Last name": z.string().min(3, { message: 'At least 3 characters' }),
-    "Personal Email": z.string().email({ message: 'Invalid email format' }),
     "MTSU Email": z.string().email({ message: 'Invalid email format' }),
     "MTSU Number": z.string().min(6, { message: 'At least 6 characters' }),
-    "Phone Number": z.string().min(10, { message: 'At least 10 digits' }),
   };
 
   if (type === 'sign-up') {
@@ -85,59 +85,55 @@ const AuthForm = ({ type }) => {
     if (type === 'sign-in') {
       return (
         <>
-          <RegisterForm
-            register={form.register}
-            name="username"
-            placeholder="Enter your MTSU Username"
-          />
+          <div className="[&_input]:w-full [&_input]:p-3 [&_input]:border [&_input]:rounded-xl">
+            <RegisterForm
+              register={form.register}
+              name="Username"
+              placeholder="Ex: jg2x"
+            />
+          </div>
 
-          <RegisterForm
-            register={form.register}
-            name="password"
-            placeholder="Enter your password"
-          />
+          <div className="[&_input]:w-full [&_input]:p-3 [&_input]:border [&_input]:rounded-xl">
+            <RegisterForm
+              register={form.register}
+              name="Password"
+              placeholder="Enter your password"
+            />
+          </div>
+
+          <div className='flex items-center gap-4'>
+            <input id="SaveInfo" type='checkbox' className="h-5 w-5 text-blue-600 bg-white border border-black rounded-sm focus:ring-2 focus:ring-blue-500 hover:bg-white hover:border-blue-500 data-[state=unchecked]:bg-white dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800"/>
+            <label for="SaveInfo" className="text-sm font-medium text-black leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-100">Remember for 30 days</label>
+          </div>
+
         </>
       );
     } else if (type === 'sign-up') {
       return (
         <>
-          <div className="flex gap-4">
+          <div className="flex gap-4 [&_input]:w-full [&_input]:p-3 [&_input]:border [&_input]:rounded-xl">
             <RegisterForm
               register={form.register}
               name="First name"
-              placeholder="Enter your First name"
+              placeholder="Ex: John"
             />
 
             <RegisterForm
               register={form.register}
               name="Last name"
-              placeholder="Enter your Last name"
+              placeholder="Ex: James"
             />
           </div>
 
-          <div className="flex gap-4">
+          <div className="[&_input]:w-full [&_input]:p-3 [&_input]:border [&_input]:rounded-xl">
             <RegisterForm
               register={form.register}
               name="MTSU Number"
-              placeholder="Your M-number"
-            />
-
-            <RegisterForm
-              register={form.register}
-              name="Phone Number"
-              placeholder="Ex: 1111111111"
+              placeholder="Ex: 012345"
             />
           </div>
-
-          <div>
-            <RegisterForm
-              register={form.register}
-              name="Personal Email"
-              placeholder="Enter your personal email"
-            />
-          </div>
-
-          <div>
+          
+          <div className="[&_input]:w-full [&_input]:p-3 [&_input]:border [&_input]:rounded-xl">
             <RegisterForm
               register={form.register}
               name="MTSU Email"
@@ -152,11 +148,27 @@ const AuthForm = ({ type }) => {
   const buttonText = type === 'sign-in' ? 'Sign In' : 'Sign Up';
 
   return (
-    <section className="max-w-md mx-auto p-6 bg-white rounded-lg shadow-md justify-items-center">
-      <h1 className="text-2xl font-semibold text-gray-900">
-        {user ? 'Link Account' : type === 'sign-in' ? 'Sign In' : 'Sign Up'}
-      </h1>
-      <p className="text-gray-600">{user ? 'Link your account to get started' : 'Please enter your details'}</p>
+    <section className="max-w-md mx-auto p-6 justify-items-center">
+      <h3 className="text-black text-2xl font-bold">
+        {user ? 'Link Account' : type === 'sign-in' ? 
+          "Welcome back!"
+          : 
+          "Get Started Now"
+        }
+      </h3>
+      <p className="font-bold text-black text-center pt-2 pr-4 pl-4 pb-10">
+        {user ? 'Link your account to get started' : type === 'sign-in' ?
+          <>
+            <p>Enter your credentials to access your account</p>
+          </>
+          :
+          <>
+            <p>Connect with classmates in your majore efortlessly.</p>
+            <p>Join real-time group chats, build friendships, and enhance your university experience</p>
+          </>
+        }
+      
+      </p>
 
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 w-[25rem]">
@@ -164,7 +176,7 @@ const AuthForm = ({ type }) => {
 
           <Button
             type="submit"
-            className="w-full p-2 rounded bg-blue-500 text-white text-2xl text-black"
+            className="w-full p-2 rounded-xl text-white text-2xl bg-[#38B6FF] hover:bg-blue-500"
             disabled={isLoading}
           >
             {isLoading ? <Loader2 size={20} className="animate-spin" /> : buttonText}
@@ -174,18 +186,41 @@ const AuthForm = ({ type }) => {
 
       <div className="text-black flex">
         {type === 'sign-in' ? (
-          <div className="flex flex-1">
-            <h1 className="text-sm mt-[1rem] flex-1 w-[17.5rem]">Don't have an account? </h1>
-            <a className="flex-1 mt-[1rem]">
-              <Link to="/sign_up">Sign up</Link>
-            </a>
+          <div className="grid gap-0 justify-items-center">
+            <section className='pt-[2rem] pb-[1rem]'>
+              <img src='Frame 61.jpg'/>
+            </section>
+
+            <section className='flex gap-1'>
+              <h1 className="text-sm">Don't have an account? </h1>
+              <a>
+                <Link to="/sign_up">Sign up</Link>
+              </a>
+            </section>
           </div>
         ) : (
-          <div className="flex gap-0">
-            <h1 className="text-sm mt-[1rem] flex w-[15rem]">Do you already have an account?</h1>
-            <a className="flex mt-[1rem]">
-              <Link to="/log_in">Log in</Link>
-            </a>
+          <div className="grid gap-0 justify-items-center">
+            <section className='pt-[2rem] pb-[1rem]'>
+              <img src='Frame 61.jpg'/>
+            </section>
+
+            <section className='flex pb-4 gap-2'> {/* Added gap between buttons */}
+              <Button className="bg-white hover:ring-4 focus:ring-4 p-2 shadow-sm rounded-lg">
+                <img src='Frame 60.jpg' alt='Icon for Action 1' className='w-full h-auto' />
+              </Button>
+
+              <Button className="bg-white hover:ring-4 focus:ring-4 p-2 shadow-sm rounded-lg">
+                <img src='Frame 62.jpg' alt='Icon for Action 2' className='w-full h-auto' />
+              </Button>
+            </section>
+
+            <section className='flex gap-2'>
+              <h1 className="text-sm">Do you already have an account?</h1>
+              <a>
+                <Link to="/log_in">Sign In</Link>
+              </a>
+            </section>
+            
           </div>
         )}
       </div>
