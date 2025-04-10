@@ -1,6 +1,4 @@
 import React from 'react'
-import { Link } from 'react-router-dom';
-import { useForm } from 'react-hook-form';
 import AuthForm from '@/components/Auth/AuthForm';
 
 const LogIn = () => {

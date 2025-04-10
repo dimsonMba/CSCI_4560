@@ -85,27 +85,33 @@ const AuthForm = ({ type }) => {
     if (type === 'sign-in') {
       return (
         <>
-          <RegisterForm
-            register={form.register}
-            name="username"
-            placeholder="Enter your MTSU Username"
-          />
-
-          <RegisterForm
-            register={form.register}
-            name="password"
-            placeholder="Enter your password"
-          />
-          <div className="flex items-center space-x-2">
-            <Checkbox id="terms"/>
-            <Label htmlFor="terms" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">Remember for 30 days</Label>
+          <div className="[&_input]:w-full [&_input]:p-3 [&_input]:border [&_input]:rounded-xl">
+            <RegisterForm
+              register={form.register}
+              name="Username"
+              placeholder="Ex: jg2x"
+            />
           </div>
+
+          <div className="[&_input]:w-full [&_input]:p-3 [&_input]:border [&_input]:rounded-xl">
+            <RegisterForm
+              register={form.register}
+              name="Password"
+              placeholder="Enter your password"
+            />
+          </div>
+
+          <div className='flex items-center gap-4'>
+            <input id="SaveInfo" type='checkbox' className="h-5 w-5 text-blue-600 bg-white border border-black rounded-sm focus:ring-2 focus:ring-blue-500 hover:bg-white hover:border-blue-500 data-[state=unchecked]:bg-white dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800"/>
+            <label for="SaveInfo" className="text-sm font-medium text-black leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-100">Remember for 30 days</label>
+          </div>
+
         </>
       );
     } else if (type === 'sign-up') {
       return (
         <>
-          <div className="flex gap-4">
+          <div className="flex gap-4 [&_input]:w-full [&_input]:p-3 [&_input]:border [&_input]:rounded-xl">
             <RegisterForm
               register={form.register}
               name="First name"
@@ -117,15 +123,17 @@ const AuthForm = ({ type }) => {
               name="Last name"
               placeholder="Ex: James"
             />
+          </div>
 
+          <div className="[&_input]:w-full [&_input]:p-3 [&_input]:border [&_input]:rounded-xl">
             <RegisterForm
               register={form.register}
               name="MTSU Number"
               placeholder="Ex: 012345"
             />
           </div>
-
-          <div>
+          
+          <div className="[&_input]:w-full [&_input]:p-3 [&_input]:border [&_input]:rounded-xl">
             <RegisterForm
               register={form.register}
               name="MTSU Email"
@@ -148,7 +156,7 @@ const AuthForm = ({ type }) => {
           "Get Started Now"
         }
       </h3>
-      <p className="font-bold text-gray-600 text-center pt-2 pr-4 pl-4 pb-4">
+      <p className="font-bold text-black text-center pt-2 pr-4 pl-4 pb-10">
         {user ? 'Link your account to get started' : type === 'sign-in' ?
           <>
             <p>Enter your credentials to access your account</p>
@@ -168,7 +176,7 @@ const AuthForm = ({ type }) => {
 
           <Button
             type="submit"
-            className="w-full p-2 rounded bg-blue-500 text-white text-2xl text-black bg-[#38B6FF]"
+            className="w-full p-2 rounded-xl text-white text-2xl bg-[#38B6FF] hover:bg-blue-500"
             disabled={isLoading}
           >
             {isLoading ? <Loader2 size={20} className="animate-spin" /> : buttonText}
@@ -178,11 +186,17 @@ const AuthForm = ({ type }) => {
 
       <div className="text-black flex">
         {type === 'sign-in' ? (
-          <div className="flex flex-1">
-            <h1 className="text-sm mt-[1rem] flex-1 w-[17.5rem]">Don't have an account? </h1>
-            <a className="flex-1 mt-[1rem]">
-              <Link to="/sign_up">Sign up</Link>
-            </a>
+          <div className="grid gap-0 justify-items-center">
+            <section className='pt-[2rem] pb-[1rem]'>
+              <img src='Frame 61.jpg'/>
+            </section>
+
+            <section className='flex gap-1'>
+              <h1 className="text-sm">Don't have an account? </h1>
+              <a>
+                <Link to="/sign_up">Sign up</Link>
+              </a>
+            </section>
           </div>
         ) : (
           <div className="grid gap-0 justify-items-center">
@@ -190,12 +204,13 @@ const AuthForm = ({ type }) => {
               <img src='Frame 61.jpg'/>
             </section>
 
-            <section className='flex pb-[1rem]'>
-              <Button className="bg-white hover:focus:ring-4">
-                <img src='Frame 60.jpg'/>
+            <section className='flex pb-4 gap-2'> {/* Added gap between buttons */}
+              <Button className="bg-white hover:ring-4 focus:ring-4 p-2 shadow-sm rounded-lg">
+                <img src='Frame 60.jpg' alt='Icon for Action 1' className='w-full h-auto' />
               </Button>
-              <Button className="bg-white">
-                <img src='Frame 62.jpg'/>
+
+              <Button className="bg-white hover:ring-4 focus:ring-4 p-2 shadow-sm rounded-lg">
+                <img src='Frame 62.jpg' alt='Icon for Action 2' className='w-full h-auto' />
               </Button>
             </section>
 

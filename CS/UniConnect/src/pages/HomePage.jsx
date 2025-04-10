@@ -7,18 +7,24 @@ const HomePage = () => {
   return (
     <>
       <div className="grid w-screen h-screen grid-cols-[60%_40%]">
-        <div className="bg-blue-400 flex flex-col items-center justify-center w-full">
-           <div className="text-blue-900 text-[10rem] font-bold font-[inkut]">MTSU</div>
-            <div className="leading-none relative inline-block left-[8.5rem] text-black text-4xl font-medium top-[-4rem]">UniConnect</div>
+
+        <div className="bg-[#38B6FF] flex flex-col items-center justify-center relative">
+
+          {/* Clickable Image (Back to Home) */}
+
+          {/* MTSU Section */}
+          <section className="absolut justify-center">
+            <img className="w-[428px] h-[420px] aspect-auto" src="Blue Minimalist Chat Bubble.jpg"/>
+          </section>
         </div>
 
-        <div className="flex flex-col bg-gray-100 items-center">
+        <div className="flex flex-col bg-gray-100 items-center ">
           <section className="flex border-2 border-black px-4 py-5 rounded-[2rem] w-[90%] mx-auto mt-5 bg-[#D9D9D9] justify-between">
             <Link to="/sign_up">
-              <Button className="bg-blue-400 text-black border-2 border-black px-6 py-5 rounded-[1rem] hover:bg-blue-100 cursor-pointer">Sign Up</Button>
+              <Button className="bg-[#38B6FF] text-black border-2 border-black px-6 py-5 rounded-[1rem] hover:bg-blue-100 cursor-pointer">Sign Up</Button>
             </Link>
             <Link to="/log_in">
-              <Button className="bg-blue-400 text-black border-2 border-black px-6 py-5 rounded-[1rem] hover:bg-blue-100 cursor-pointer">Log In</Button>
+              <Button className="bg-[#38B6FF] text-black border-2 border-black px-6 py-5 rounded-[1rem] hover:bg-blue-100 cursor-pointer">Log In</Button>
             </Link>
           </section>
           <div className="mt-[150px] items-center ml-[70px] mr-[70px] inline-block p-[70px]">
@@ -30,12 +36,13 @@ const HomePage = () => {
 
           <div className="mt-4">
             <Link to= "/sign_up">
-              <Button className=" py-10 px-8 bg-blue-400 font-bold text-black rounded-[10rem] text-[2.5rem] hover:bg-blue-200 cursor-pointer border-5 border-blue">
+              <Button className=" py-10 px-8 bg-[#38B6FF] font-bold text-black rounded-[10rem] text-[2.5rem] hover:bg-blue-200 cursor-pointer border-5 border-blue">
                 Sign Up Now
               </Button>
             </Link>
           </div>
         </div>
+
       </div>
     </>
   )
