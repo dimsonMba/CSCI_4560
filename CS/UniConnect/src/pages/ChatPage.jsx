@@ -5,19 +5,20 @@ import React from 'react'
 
 function ChatPage() {
   return (
-    <section>
-        <div>
-            <LeftSide/>
-        </div>
+    <section className="flex flex-row w-full">
+      <div className="w-[25%]">
+        <LeftSide />
+      </div>
 
-        <div>
-            <CenterSide/>
-        </div>
+      <div className="w-[70%]">
+        <CenterSide />
+      </div>
 
-        <div>
-            <RightSide/>
-        </div>
+      <div className="w-[15%]">
+        <RightSide />
+      </div>
     </section>
+
   )
 }
 
