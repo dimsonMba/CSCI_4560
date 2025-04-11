@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 
 from pathlib import Path
 
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -23,16 +24,31 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = "django-insecure-cpl9w($mdr)dd3xwl70y8a90q%zip17+02+b!e+0+f&&!pb9m*"
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
-
+# Security (Development settings - change for production!)
+DEBUG = True  # Set to False in production
 ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 
-CORS_ALLOW_ALL_ORIGINS = True
+# CORS (More secure than ALLOW_ALL_ORIGINS)
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000",  # Your React frontend URL
+    "http://127.0.0.1:3000",
+]
 
-
-# Application definition
+# REST Framework Configuration
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.AllowAny',  # Or IsAuthenticated for production
+    ],
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.renderers.JSONRenderer',
+        'rest_framework.renderers.BrowsableAPIRenderer',
+    ]
+}
 
 INSTALLED_APPS = [
+    "rest_framework",  # Must be before your apps
+    "rest_framework_simplejwt",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -41,19 +57,23 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "corsheaders",
     "api",
-    "rest_framework",
 ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    )
+}
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
+    "corsheaders.middleware.CorsMiddleware",  # Should be high up
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-    "corsheaders.middleware.CorsMiddleware",
-    "django.middleware.common.CommonMiddleware",
 ]
 
 ROOT_URLCONF = "UniConnectBackend.urls"
@@ -80,10 +100,15 @@ WSGI_APPLICATION = "UniConnectBackend.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
+# Database configuration (add to bottom) Change the information here
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'test_db',
+        'USER': 'root',
+        'PASSWORD': '1234',
+        'HOST': '127.0.0.1',
+        'PORT': '3306',
     }
 }
 
