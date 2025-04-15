@@ -1,6 +1,6 @@
 # Virtual environment
 venv/
-.env/
+.env
 
 # Database
 *.sqlite3
