@@ -7,8 +7,7 @@ import { Button } from '../ui/button';
 import { Loader2 } from 'lucide-react';
 import { Form } from '../ui/form';
 import { Link } from 'react-router-dom';
-import { Checkbox } from '../ui/checkbox';
-import { Label } from '../ui/label';
+import api from '@/api';
 
 // Define schema dynamically
 const RegisterSchema = (type) => {
@@ -51,7 +50,7 @@ const generateDefaultValues = (schema) => {
 };
 
 const AuthForm = ({ type }) => {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
 
@@ -70,6 +69,14 @@ const AuthForm = ({ type }) => {
   const onSubmit = async (data) => {
     setIsLoading(true);
     setError(null);
+
+    let res;
+    if (type === "sign-in"){
+      res = await api.post('login/', data);
+    }
+    else if (type === "sign-up"){
+      res = await api.post('verification/', data);
+    }
     try {
       // Simulate a successful submission
       setUser(data);
@@ -88,7 +95,7 @@ const AuthForm = ({ type }) => {
           <div className="[&_input]:w-full [&_input]:p-3 [&_input]:border [&_input]:rounded-xl">
             <RegisterForm
               register={form.register}
-              name="Username"
+              name="username"
               placeholder="Ex: jg2x"
             />
           </div>
@@ -96,7 +103,7 @@ const AuthForm = ({ type }) => {
           <div className="[&_input]:w-full [&_input]:p-3 [&_input]:border [&_input]:rounded-xl">
             <RegisterForm
               register={form.register}
-              name="Password"
+              name="password"
               placeholder="Enter your password"
             />
           </div>

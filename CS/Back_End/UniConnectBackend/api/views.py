@@ -9,6 +9,13 @@ class CreateUserView(generics.ListCreateAPIView):
     queryset = Student.objects.all()
     serializer_class = StudentSerializer
 
+class VerificationView(APIView):
+    def post():
+        pass
+
+# In LoginView
+from rest_framework_simplejwt.tokens import RefreshToken
+
 class LoginView(APIView):
     def post(self, request):
         serializer = LoginSerializer(data=request.data)
@@ -19,7 +26,13 @@ class LoginView(APIView):
             try:
                 student = Student.objects.get(username=username)
                 if check_password(password, student.password):
-                    return Response({"message": "Login successful"}, status=status.HTTP_200_OK)
+                    refresh = RefreshToken.for_user(student)
+                    return Response({
+                        "message": "Login successful",
+                        "refresh": str(refresh),
+                        "access": str(refresh.access_token),
+                        "user": StudentSerializer(student).data
+                    }, status=status.HTTP_200_OK)
                 else:
                     return Response({"error": "Invalid credentials"}, status=status.HTTP_400_BAD_REQUEST)
             except Student.DoesNotExist:
