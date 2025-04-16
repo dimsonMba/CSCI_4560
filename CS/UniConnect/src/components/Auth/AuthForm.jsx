@@ -70,25 +70,23 @@ const AuthForm = ({ type }) => {
     setIsLoading(true);
     setError(null);
 
-    let res;
-    if (type === "sign-in"){
-      res = await api.post('login/', data);
-    }
-    else if (type === "sign-up"){
-      res = await api.post('verification/', data);
-    }
-
-    if (res.data.success) {
-      setUser(res.data.user); // or use token, depending on auth method
-    } else {
-      setError(res.data.message || 'Submission failed.');
-    }
     try {
-      // Simulate a successful submission
-      setUser(data);
-      console.log(data);
+      let res;
+      if (type === "sign-in"){
+        res = await api.post('login/', data);
+      }
+      else if (type === "sign-up"){
+        res = await api.post('verification/', data);
+      }
+
+      if (res.data.success) {
+        setUser(res.data.user); // or use token, depending on auth method
+      } else {
+        setError(res.data.message || 'Submission failed.');
+      }
     } catch (err) {
-      setError(err.message || 'Submission failed. Please try again.');
+      setError(err.response.data.error || 'Submission failed. Please try again.');
+      console.log(err.response.data.error)
     } finally {
       setIsLoading(false);
     }
