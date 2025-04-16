@@ -6,6 +6,7 @@ import { Button } from '../ui/button';
 import { Loader2 } from 'lucide-react';
 import { Form } from '../ui/form';
 import RegisterForm from './RegisterForm';
+import api from '../../api'
 
 // Define the schema generator function
 const RegisterSchema = (type) => {
