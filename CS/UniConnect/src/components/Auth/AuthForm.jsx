@@ -7,7 +7,7 @@ import { Button } from '../ui/button';
 import { Loader2 } from 'lucide-react';
 import { Form } from '../ui/form';
 import { Link } from 'react-router-dom';
-import api from '@/api';
+import api from '../../api';
 
 // Define schema dynamically
 const RegisterSchema = (type) => {
@@ -76,6 +76,12 @@ const AuthForm = ({ type }) => {
     }
     else if (type === "sign-up"){
       res = await api.post('verification/', data);
+    }
+
+    if (res.data.success) {
+      setUser(res.data.user); // or use token, depending on auth method
+    } else {
+      setError(res.data.message || 'Submission failed.');
     }
     try {
       // Simulate a successful submission

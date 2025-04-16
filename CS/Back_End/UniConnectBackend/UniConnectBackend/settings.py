@@ -34,6 +34,7 @@ ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 # CORS (More secure than ALLOW_ALL_ORIGINS)
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",  # Your React frontend URL
+    "http://localhost:5173",  # Your React frontend URL
     "http://127.0.0.1:3000",
 ]
 
