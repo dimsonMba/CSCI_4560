@@ -4,6 +4,7 @@ from rest_framework.views import APIView
 from django.contrib.auth.hashers import check_password
 from .models import UniUser  # Changed model from Student to UniUser
 from .serializers import UniUserSerializer, LoginSerializer
+from django.db import DatabaseError, IntegrityError
 
 class CreateUserView(generics.ListCreateAPIView):
     queryset = UniUser.objects.all()
@@ -39,9 +40,9 @@ class LoginView(APIView):
                         {"error": "Invalid credentials"}, 
                         status=status.HTTP_400_BAD_REQUEST
                     )
-            except UniUser.DoesNotExist:
+            except UniUser.DoesNotExist as e:
                 return Response(
-                    {"error": "User not found"}, 
+                    {"error": "Username or password is incorrect."}, 
                     status=status.HTTP_404_NOT_FOUND
                 )
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

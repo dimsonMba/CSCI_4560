@@ -9,7 +9,7 @@ router.register(r'students', StudentInfoView)  # For student data management
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/register/', CreateUserView.as_view(), name='register'),
-    path('api/verification/', VerificationView.as_view(), name='register'),
+    path('api/verification/', VerificationView.as_view(), name='verification'),
     path('api/login/', LoginView.as_view(), name='login'),
     path('api/student/', include(router.urls)),  # For student data access
     path('api-auth/', include('rest_framework.urls')),  # For browsable API login
