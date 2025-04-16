@@ -172,12 +172,12 @@ const AuthForm = ({ type }) => {
       <p className="font-bold text-black text-center pt-2 pr-4 pl-4 pb-10">
         {user ? 'Link your account to get started' : type === 'sign-in' ?
           <>
-            <p>Enter your credentials to access your account</p>
+            Enter your credentials to access your account
           </>
           :
           <>
-            <p>Connect with classmates in your majore efortlessly.</p>
-            <p>Join real-time group chats, build friendships, and enhance your university experience</p>
+            Connect with classmates in your majore efortlessly.
+            Join real-time group chats, build friendships, and enhance your university experience
           </>
         }
       
@@ -206,9 +206,7 @@ const AuthForm = ({ type }) => {
 
             <section className='flex gap-1'>
               <h1 className="text-sm">Don't have an account? </h1>
-              <a>
                 <Link to="/sign_up">Sign up</Link>
-              </a>
             </section>
           </div>
         ) : (
@@ -229,9 +227,7 @@ const AuthForm = ({ type }) => {
 
             <section className='flex gap-2'>
               <h1 className="text-sm">Do you already have an account?</h1>
-              <a>
                 <Link to="/log_in">Sign In</Link>
-              </a>
             </section>
             
           </div>
