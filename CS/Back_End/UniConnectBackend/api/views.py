@@ -1,98 +1,98 @@
-from rest_framework import generics, permissions, status, viewsets
+from rest_framework import status, permissions, generics, viewsets
+from rest_framework.views    import APIView
 from rest_framework.response import Response
-from rest_framework.views import APIView
-from django.contrib.auth.hashers import check_password
-from .models import UniUser  # Changed model from Student to UniUser
-from .serializers import UniUserSerializer, LoginSerializer, VerificationSeriliazer
-from django.db import DatabaseError, IntegrityError
+from rest_framework_simplejwt.tokens import RefreshToken
+from django.contrib.auth.hashers     import make_password, check_password
+from django.db                       import IntegrityError
+
+from .models      import UniversityData, UniUser
+from .serializers import (
+    UniUserSerializer,
+    LoginSerializer,
+    VerificationSerializer
+)
 
 class CreateUserView(generics.ListCreateAPIView):
-    queryset = UniUser.objects.all()
+    queryset         = UniUser.objects.all()
     serializer_class = UniUserSerializer
-    permission_classes = [permissions.AllowAny]  # Allow unauthenticated sign-up
+    permission_classes = [permissions.AllowAny]
 
 class VerificationView(APIView):
     permission_classes = [permissions.AllowAny]
 
     def post(self, request):
-        serializer = VerificationSeriliazer(data=request.data)
+        serializer = VerificationSerializer(data=request.data)
+        if not serializer.is_valid():
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-        if serializer.is_valid():
-            student_id = serializer.validated_data['student_id']
-            first_name = serializer.validated_data['first_name']
-            last_name = serializer.validated_data['last_name']
-            email = serializer.validated_data['email']
+        sid   = serializer.validated_data['student_id']
+        fn    = serializer.validated_data['first_name'].strip().lower()
+        ln    = serializer.validated_data['last_name'].strip().lower()
+        email = serializer.validated_data['mtsu_email'].lower()
 
-            try:
-                student = UniUser.objects.get(student_id=student_id)
+        # 1) Lookup in the master university_data
+        try:
+            master = UniversityData.objects.get(student_id=sid, mtsu_email=email)
+        except UniversityData.DoesNotExist:
+            return Response(
+                {'success': False, 'message': 'Student record not found.'},
+                status=status.HTTP_404_NOT_FOUND
+            )
 
-                # If found, issue tokens and return user data
-                refresh = RefreshToken.for_user(student)
-                return Response({
-                    "message": "User already exists. Logged in.",
-                    "refresh": str(refresh),
-                    "access": str(refresh.access_token),
-                    "user": UniUserSerializer(student).data
-                }, status=status.HTTP_200_OK)
+        # 2) Verify names
+        if master.first_name.lower() != fn or master.last_name.lower() != ln:
+            return Response(
+                {'success': False, 'message': 'Name does not match records.'},
+                status=status.HTTP_400_BAD_REQUEST
+            )
 
-            except UniUser.DoesNotExist:
-                # User doesn't exist — register and issue token
-                student = UniUser.objects.create(
-                    student_id=student_id,
-                    first_name=first_name,
-                    last_name=last_name,
-                    email=email,
-                    username=email,  # assuming you want to use email as username
-                    #password=make_password("default_password123")  # set a random/initial password
-                )
-                refresh = RefreshToken.for_user(student)
-                return Response({
-                    "message": "User registered successfully",
-                    "refresh": str(refresh),
-                    "access": str(refresh.access_token),
-                    "user": UniUserSerializer(student).data
-                }, status=status.HTTP_201_CREATED)
-
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-# In LoginView
-from rest_framework_simplejwt.tokens import RefreshToken
+        # 3) Return the data needed for sign‑up
+        return Response({
+            'success': True,
+            'user': {
+                'student_id':      master.student_id,
+                'first_name':      master.first_name,
+                'last_name':       master.last_name,
+                'mtsu_email':      master.mtsu_email,
+                'graduation_year': master.grad_year,
+                'major':           master.major,
+            }
+        }, status=status.HTTP_200_OK)
 
 class LoginView(APIView):
-    permission_classes = [permissions.AllowAny]  # Allow unauthenticated login
+    permission_classes = [permissions.AllowAny]
+
     def post(self, request):
         serializer = LoginSerializer(data=request.data)
-        if serializer.is_valid():
-            username = serializer.validated_data['username']
-            password = serializer.validated_data['password']
-            try:
-                student = UniUser.objects.get(username=username)
-                if check_password(password, student.password):
-                    refresh = RefreshToken.for_user(student)
-                    return Response({
-                        "message": "Login successful",
-                        "refresh": str(refresh),
-                        "access": str(refresh.access_token),
-                        "user": UniUserSerializer(student).data
-                    }, status=status.HTTP_200_OK)
-                else:
-                    return Response(
-                        {"error": "Invalid credentials"}, 
-                        status=status.HTTP_400_BAD_REQUEST
-                    )
-            except UniUser.DoesNotExist as e:
+        if not serializer.is_valid():
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+        username = serializer.validated_data['username']
+        password = serializer.validated_data['password']
+
+        try:
+            user = UniUser.objects.get(username=username)
+            if check_password(password, user.password):
+                refresh = RefreshToken.for_user(user)
+                return Response({
+                    'message': 'Login successful',
+                    'refresh': str(refresh),
+                    'access':  str(refresh.access_token),
+                    'user':    UniUserSerializer(user).data
+                }, status=status.HTTP_200_OK)
+            else:
                 return Response(
-                    {"error": "Username or password is incorrect."}, 
-                    status=status.HTTP_404_NOT_FOUND
+                    {'error': 'Invalid credentials'},
+                    status=status.HTTP_400_BAD_REQUEST
                 )
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        except UniUser.DoesNotExist:
+            return Response(
+                {'error': 'Username or password is incorrect.'},
+                status=status.HTTP_404_NOT_FOUND
+            )
 
 class StudentInfoView(viewsets.ModelViewSet):
-    """
-    This viewset will allow unauthenticated create,
-    but for all other actions, the user must be authenticated.
-    """
-    queryset = UniUser.objects.all()
+    queryset         = UniUser.objects.all()
     serializer_class = UniUserSerializer
 
     def get_permissions(self):

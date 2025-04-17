@@ -2,14 +2,16 @@ from django.db import models
 
 # Table: UniversityData
 class UniversityData(models.Model):
-    student_id = models.AutoField(primary_key=True)
-    first_name = models.CharField(max_length=50)
-    last_name = models.CharField(max_length=50)
-    email = models.EmailField(max_length=100, unique=True)
-    major = models.CharField(max_length=100)
-    grad_year = models.IntegerField()
-    enroll_status = models.CharField(max_length=20)  # e.g., 'On Campus', 'Off Campus'
-    course_id = models.CharField(max_length=20)
+    student_id    = models.AutoField(primary_key=True)
+    first_name    = models.CharField(max_length=50)
+    last_name     = models.CharField(max_length=50)
+    mtsu_email    = models.EmailField(max_length=100, unique=True)
+    major         = models.CharField(max_length=100)
+    grad_year     = models.IntegerField()
+    enroll_status = models.CharField(
+        max_length=20,
+        choices=[('On Campus', 'On Campus'), ('Off Campus', 'Off Campus')]
+    )
 
     class Meta:
         db_table = 'university_data'
@@ -37,19 +39,23 @@ class Department(models.Model):
 
 # Table: UniUsers (custom user model mirroring your SQL Users table)
 class UniUser(models.Model):
-    user_id = models.AutoField(primary_key=True)
-    username = models.CharField(max_length=100, unique=True)
-    first_name = models.CharField(max_length=50)
-    last_name = models.CharField(max_length=50)
-    email = models.EmailField(max_length=100, unique=True)
-    password = models.CharField(max_length=128)  # store a hashed password
-    department = models.ForeignKey(Department, on_delete=models.SET_NULL, null=True, blank=True)
+    user_id         = models.AutoField(primary_key=True)
+    student_id = models.IntegerField("MTSU Number", unique=True, null=True, blank=True)
+    username = models.CharField("Username", max_length=100, unique=True, null=True, blank=True)
+    first_name      = models.CharField("First name", max_length=50, default='', blank=True)
+    last_name       = models.CharField("Last name", max_length=50, default='', blank=True)
+    personal_email  = models.EmailField("Personal Email", max_length=100, unique=True, default='', blank=True)
+    mtsu_email      = models.EmailField("MTSU Email", max_length=100, unique=True, default='', blank=True)
+    phone_number    = models.CharField("Phone Number", max_length=20, default='', blank=True)
+    graduation_year = models.IntegerField("Graduation Year", default=0)
+    major           = models.CharField("Major", max_length=100, default='', blank=True)
+    password        = models.CharField("Password", max_length=128, default='', blank=True)
 
     class Meta:
         db_table = 'uni_users'
 
     def __str__(self):
-        return self.username
+        return f"{self.first_name} {self.last_name} (<{self.mtsu_email}>)"
 
 
 # Table: Posts

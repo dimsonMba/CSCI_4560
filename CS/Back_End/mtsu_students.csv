@@ -1,0 +1,101 @@
+student_id,first_name,last_name,mtsu_email,major,grad_year,enroll_status
+308157,Charlotte,Thomas,ct81@mtmail.mtsu.edu,Biology,2025,Off Campus
+388666,Emma,Smith,es38@mtmail.mtsu.edu,English,2024,On Campus
+973339,Mason,White,mw18@mtmail.mtsu.edu,Economics,2026,On Campus
+988609,Isabella,Jones,ij56@mtmail.mtsu.edu,Psychology,2026,On Campus
+462223,Lucas,Brown,lb22@mtmail.mtsu.edu,Biology,2025,Off Campus
+311235,Noah,Miller,nm19@mtmail.mtsu.edu,Biology,2024,On Campus
+147050,Sophia,Smith,ss70@mtmail.mtsu.edu,Mathematics,2026,On Campus
+280651,Liam,Thompson,lt19@mtmail.mtsu.edu,English,2025,Off Campus
+578451,Liam,Martin,lm92@mtmail.mtsu.edu,Economics,2027,Off Campus
+910985,Emma,Martin,em11@mtmail.mtsu.edu,Economics,2026,On Campus
+357542,Ava,Thompson,at58@mtmail.mtsu.edu,Mathematics,2025,Off Campus
+841449,Mia,Martinez,mm81@mtmail.mtsu.edu,Business,2025,On Campus
+154251,Daniel,Harris,dh72@mtmail.mtsu.edu,Mathematics,2026,On Campus
+241614,Charlotte,White,cw16@mtmail.mtsu.edu,Nursing,2027,Off Campus
+347861,Emily,Brown,eb21@mtmail.mtsu.edu,Chemistry,2027,On Campus
+686628,David,Harris,dh45@mtmail.mtsu.edu,Computer Science,2027,Off Campus
+393467,Mason,Brown,mb69@mtmail.mtsu.edu,Art,2024,On Campus
+405914,Daniel,Garcia,dg39@mtmail.mtsu.edu,Nursing,2027,Off Campus
+927156,Charlotte,Smith,cs70@mtmail.mtsu.edu,Art,2027,Off Campus
+485343,Liam,Brown,lb43@mtmail.mtsu.edu,English,2027,Off Campus
+822029,Mason,Williams,mw16@mtmail.mtsu.edu,Computer Science,2024,On Campus
+330230,Michael,Taylor,mt18@mtmail.mtsu.edu,Mathematics,2024,Off Campus
+670663,Lucas,Miller,lm33@mtmail.mtsu.edu,History,2025,On Campus
+582001,Olivia,Miller,om32@mtmail.mtsu.edu,Economics,2027,On Campus
+372851,Sarah,Thomas,st44@mtmail.mtsu.edu,Chemistry,2027,On Campus
+243110,Liam,Martin,lm86@mtmail.mtsu.edu,Psychology,2027,On Campus
+136039,Emma,Smith,es49@mtmail.mtsu.edu,Chemistry,2027,Off Campus
+749971,Daniel,Martinez,dm26@mtmail.mtsu.edu,English,2027,Off Campus
+770837,James,Moore,jm83@mtmail.mtsu.edu,Political Science,2027,Off Campus
+564417,Emma,Garcia,eg83@mtmail.mtsu.edu,Computer Science,2024,Off Campus
+635091,Sarah,Martin,sm12@mtmail.mtsu.edu,Economics,2025,On Campus
+451754,David,White,dw72@mtmail.mtsu.edu,Nursing,2024,On Campus
+712601,Amelia,Wilson,aw44@mtmail.mtsu.edu,Business,2024,Off Campus
+698288,John,Williams,jw81@mtmail.mtsu.edu,Political Science,2027,Off Campus
+608725,David,Moore,dm42@mtmail.mtsu.edu,History,2026,On Campus
+118115,Sarah,Miller,sm19@mtmail.mtsu.edu,Nursing,2027,On Campus
+167736,Olivia,Taylor,ot32@mtmail.mtsu.edu,Political Science,2025,Off Campus
+577913,John,Martin,jm43@mtmail.mtsu.edu,Nursing,2024,On Campus
+826630,David,Moore,dm68@mtmail.mtsu.edu,Art,2027,On Campus
+352844,Amelia,Anderson,aa79@mtmail.mtsu.edu,Economics,2024,On Campus
+690344,Amelia,Wilson,aw40@mtmail.mtsu.edu,Physics,2027,On Campus
+937653,Charlotte,Harris,ch11@mtmail.mtsu.edu,Mathematics,2024,On Campus
+577380,Lucas,Garcia,lg67@mtmail.mtsu.edu,Philosophy,2024,Off Campus
+987030,Sarah,White,sw94@mtmail.mtsu.edu,Mathematics,2025,Off Campus
+455627,Amelia,Martinez,am40@mtmail.mtsu.edu,Art,2027,Off Campus
+753495,Olivia,Martinez,om50@mtmail.mtsu.edu,Business,2025,Off Campus
+838628,Isabella,Miller,im85@mtmail.mtsu.edu,Political Science,2026,Off Campus
+642633,Charlotte,Jackson,cj56@mtmail.mtsu.edu,Biology,2024,Off Campus
+525084,Sophia,Moore,sm85@mtmail.mtsu.edu,Mathematics,2027,Off Campus
+774373,Emily,Moore,em64@mtmail.mtsu.edu,Psychology,2025,On Campus
+147545,David,Johnson,dj46@mtmail.mtsu.edu,Political Science,2026,On Campus
+242244,David,Garcia,dg32@mtmail.mtsu.edu,English,2027,Off Campus
+428881,Ava,Wilson,aw10@mtmail.mtsu.edu,Mathematics,2024,Off Campus
+114508,Ava,Martinez,am62@mtmail.mtsu.edu,Engineering,2027,On Campus
+234892,Olivia,Wilson,ow46@mtmail.mtsu.edu,Mathematics,2025,Off Campus
+904634,Charlotte,Smith,cs50@mtmail.mtsu.edu,Economics,2026,Off Campus
+967434,Charlotte,Martin,cm46@mtmail.mtsu.edu,Political Science,2026,Off Campus
+447551,Daniel,Smith,ds83@mtmail.mtsu.edu,Engineering,2027,Off Campus
+669911,Lucas,Thomas,lt71@mtmail.mtsu.edu,Art,2024,On Campus
+511033,Noah,Smith,ns29@mtmail.mtsu.edu,Psychology,2026,On Campus
+123105,John,Robinson,jr48@mtmail.mtsu.edu,History,2025,Off Campus
+757595,Isabella,Thomas,it83@mtmail.mtsu.edu,Engineering,2025,On Campus
+233423,Lucas,Martin,lm92@mtmail.mtsu.edu,Engineering,2024,On Campus
+986626,Mia,Moore,mm36@mtmail.mtsu.edu,Biology,2027,On Campus
+100805,Isabella,Robinson,ir40@mtmail.mtsu.edu,Business,2026,On Campus
+966140,John,Jackson,jj18@mtmail.mtsu.edu,Chemistry,2025,On Campus
+496175,Ethan,Wilson,ew90@mtmail.mtsu.edu,Computer Science,2024,Off Campus
+623657,Isabella,Taylor,it32@mtmail.mtsu.edu,Nursing,2025,Off Campus
+838289,Ava,Thomas,at97@mtmail.mtsu.edu,History,2027,On Campus
+455251,James,Wilson,jw46@mtmail.mtsu.edu,Nursing,2024,On Campus
+562629,Sophia,Anderson,sa48@mtmail.mtsu.edu,Political Science,2026,On Campus
+732394,Ava,Miller,am74@mtmail.mtsu.edu,Nursing,2024,On Campus
+617917,Isabella,Moore,im62@mtmail.mtsu.edu,Business,2025,On Campus
+126110,Mason,Wilson,mw80@mtmail.mtsu.edu,Physics,2024,Off Campus
+129755,Michael,Thomas,mt57@mtmail.mtsu.edu,Political Science,2024,Off Campus
+292529,Mason,Jones,mj37@mtmail.mtsu.edu,Mathematics,2024,On Campus
+727997,John,Martinez,jm42@mtmail.mtsu.edu,Nursing,2026,On Campus
+896907,Sarah,Harris,sh35@mtmail.mtsu.edu,Art,2025,Off Campus
+555901,Amelia,Wilson,aw25@mtmail.mtsu.edu,Biology,2024,Off Campus
+147263,Isabella,White,iw80@mtmail.mtsu.edu,Philosophy,2026,On Campus
+265534,Mason,Martin,mm74@mtmail.mtsu.edu,Mathematics,2024,On Campus
+824302,Ethan,Harris,eh46@mtmail.mtsu.edu,Business,2025,On Campus
+536213,Noah,White,nw79@mtmail.mtsu.edu,Computer Science,2024,Off Campus
+388080,Liam,Anderson,la67@mtmail.mtsu.edu,Chemistry,2026,Off Campus
+478201,Amelia,White,aw38@mtmail.mtsu.edu,Philosophy,2026,Off Campus
+810940,Liam,Robinson,lr23@mtmail.mtsu.edu,Economics,2026,On Campus
+167582,Liam,Thomas,lt70@mtmail.mtsu.edu,Psychology,2025,Off Campus
+940242,John,Thompson,jt27@mtmail.mtsu.edu,English,2024,Off Campus
+898767,John,Thomas,jt70@mtmail.mtsu.edu,Biology,2027,Off Campus
+853464,Mason,Wilson,mw79@mtmail.mtsu.edu,Art,2027,On Campus
+387793,Mason,White,mw12@mtmail.mtsu.edu,Economics,2027,Off Campus
+960269,Daniel,Moore,dm64@mtmail.mtsu.edu,Economics,2027,On Campus
+112256,James,Davis,jd37@mtmail.mtsu.edu,Physics,2026,Off Campus
+748543,Sarah,Miller,sm45@mtmail.mtsu.edu,Philosophy,2026,On Campus
+693273,Mason,Thomas,mt81@mtmail.mtsu.edu,Philosophy,2027,On Campus
+746987,Ava,Miller,am99@mtmail.mtsu.edu,Engineering,2025,On Campus
+655286,Daniel,Thompson,dt35@mtmail.mtsu.edu,Art,2025,Off Campus
+808439,Mason,Williams,mw77@mtmail.mtsu.edu,Engineering,2024,Off Campus
+423706,Ava,Taylor,at19@mtmail.mtsu.edu,Nursing,2027,On Campus
+227541,Sophia,Moore,sm32@mtmail.mtsu.edu,Art,2024,Off Campus

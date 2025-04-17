@@ -1,67 +1,53 @@
 import React, { useState, useEffect } from 'react';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { z } from 'zod';
-import RegisterForm from './RegisterForm';
-import { Button } from '../ui/button';
-import { Loader2 } from 'lucide-react';
-import { Form } from '../ui/form';
-import { Link } from 'react-router-dom';
-import api from '../../api';
+import { useNavigate, Link }          from 'react-router-dom';
+import { useForm }                    from 'react-hook-form';
+import { zodResolver }                from '@hookform/resolvers/zod';
+import { z }                          from 'zod';
+import RegisterForm                   from './RegisterForm';
+import { Button }                     from '../ui/button';
+import { Loader2 }                    from 'lucide-react';
+import { Form }                       from '../ui/form';
+import api                            from '../../api';
 
 // Define schema dynamically
 const RegisterSchema = (type) => {
-  const baseSchema = {
-    "First name": z.string().min(3, { message: 'At least 3 characters' }),
-    "Last name": z.string().min(3, { message: 'At least 3 characters' }),
-    "MTSU Email": z.string().email({ message: 'Invalid email format' }),
-    "MTSU Number": z.string().min(1, { message: 'At least 6 characters' }),
+  const base = {
+    "First name":  z.string().min(3),
+    "Last name":   z.string().min(3),
+    "MTSU Email":  z.string().email(),
+    "MTSU Number": z.string().min(1),
   };
 
-  if (type === 'sign-up') {
-    return z.object(baseSchema);
-  } else if (type === 'sign-in') {
-    return z.object({
-      "username": z.string().min(3, { message: 'Enter your MTSU username' }),
-      "password": z.string().min(6, { message: 'Password must be at least 6 characters' }),
-    });
-  } else {
-    throw new Error(`Unknown form type: ${type}`);
-  }
+  return type === 'sign-up'
+    ? z.object(base)
+    : z.object({
+        "username": z.string().min(3),
+        "password": z.string().min(6),
+      });
 };
 
-// Define form schemas object
 const formSchemas = {
   'sign-up': RegisterSchema('sign-up'),
   'sign-in': RegisterSchema('sign-in'),
 };
 
-// Function to generate default values based on the schema
-const generateDefaultValues = (schema) => {
-  const defaultValues = {};
-  const shape = schema.shape; // Extract the shape of the schema
+const generateDefaultValues = (schema) =>
+  Object.keys(schema.shape).reduce((acc, key) => {
+    acc[key] = '';
+    return acc;
+  }, {});
 
-  // Iterate over the schema's shape and set default values
-  Object.keys(shape).forEach((key) => {
-    defaultValues[key] = ''; // Set default value as an empty string
-  });
-
-  return defaultValues;
-};
-
-const AuthForm = ({ type }) => {
-  const [user, setUser] = useState('');
+export default function AuthForm({ type }) {
+  const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(null);
+  const [error,     setError]     = useState(null);
 
   const formSchema = formSchemas[type];
-
   const form = useForm({
-    resolver: zodResolver(formSchema),
-    defaultValues: generateDefaultValues(formSchema), // Generate default values dynamically
+    resolver:     zodResolver(formSchema),
+    defaultValues: generateDefaultValues(formSchema),
   });
 
-  // Reset the form when the `type` changes
   useEffect(() => {
     form.reset(generateDefaultValues(formSchema));
   }, [type, form, formSchema]);
@@ -71,170 +57,114 @@ const AuthForm = ({ type }) => {
     setError(null);
 
     try {
-      let res;
-      if (type === "sign-in"){
-        res = await api.post('login/', data);
-      }
-      else if (type === "sign-up"){
-        res = await api.post('verification/', data);
-      }
-
-      if (res.data.success) {
-        setUser(res.data.user); // or use token, depending on auth method
+      if (type === "sign-in") {
+        const res = await api.post('login/', {
+          username: data.username,
+          password: data.password,
+        });
+        if (res.data.message === "Login successful") {
+          navigate('/chatpage');
+          return;
+        }
+        setError(res.data.error || 'Login failed.');
       } else {
-        setError(res.data.message || 'Submission failed.');
+        // verification step
+        const res = await api.post('verification/', {
+          "First name":  data["First name"],
+          "Last name":   data["Last name"],
+          "MTSU Number": data["MTSU Number"],
+          "MTSU Email":  data["MTSU Email"],
+        });
+        if (res.data.success) {
+          navigate('/register_page', { state: { initialData: res.data.user } });
+          return;
+        }
+        setError(res.data.message || 'Verification failed.');
       }
     } catch (err) {
-      setError(err.response.data.error || 'Submission failed. Please try again.');
-      console.log(err.response.data.error)
+      setError(err.response?.data?.error || 'Submission failed.');
+      console.error(err);
     } finally {
       setIsLoading(false);
     }
   };
 
-  const renderFormFields = () => {
+  const renderFields = () => {
     if (type === 'sign-in') {
       return (
         <>
           <div className="[&_input]:w-full [&_input]:p-3 [&_input]:border [&_input]:rounded-xl">
-            <RegisterForm
-              register={form.register}
-              name="username"
-              placeholder="Ex: jg2x"
-            />
+            <RegisterForm register={form.register} name="username" placeholder="Ex: jg2x" />
           </div>
-
           <div className="[&_input]:w-full [&_input]:p-3 [&_input]:border [&_input]:rounded-xl">
-            <RegisterForm
-              register={form.register}
-              name="password"
-              placeholder="Enter your password"
-            />
+            <RegisterForm register={form.register} name="password" placeholder="Enter your password" />
           </div>
-
-          <div className='flex items-center gap-4'>
-            <input id="SaveInfo" type='checkbox' className="h-5 w-5 text-blue-600 bg-white border border-black rounded-sm focus:ring-2 focus:ring-blue-500 hover:bg-white hover:border-blue-500 data-[state=unchecked]:bg-white dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800"/>
-            <label for="SaveInfo" className="text-sm font-medium text-black leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-100">Remember for 30 days</label>
-          </div>
-
-        </>
-      );
-    } else if (type === 'sign-up') {
-      return (
-        <>
-          <div className="flex gap-4 [&_input]:w-full [&_input]:p-3 [&_input]:border [&_input]:rounded-xl">
-            <RegisterForm
-              register={form.register}
-              name="First name"
-              placeholder="Ex: John"
-            />
-
-            <RegisterForm
-              register={form.register}
-              name="Last name"
-              placeholder="Ex: James"
-            />
-          </div>
-
-          <div className="[&_input]:w-full [&_input]:p-3 [&_input]:border [&_input]:rounded-xl">
-            <RegisterForm
-              register={form.register}
-              name="MTSU Number"
-              placeholder="Ex: 012345"
-            />
-          </div>
-          
-          <div className="[&_input]:w-full [&_input]:p-3 [&_input]:border [&_input]:rounded-xl">
-            <RegisterForm
-              register={form.register}
-              name="MTSU Email"
-              placeholder="Enter your MTSU email"
-            />
+          <div className="flex items-center gap-4">
+            <input id="SaveInfo" type="checkbox" className="h-5 w-5" />
+            <label htmlFor="SaveInfo" className="text-sm">Remember for 30 days</label>
           </div>
         </>
       );
     }
+    return (
+      <>
+        <div className="flex gap-4 [&_input]:w-full [&_input]:p-3 [&_input]:border [&_input]:rounded-xl">
+          <RegisterForm register={form.register} name="First name" placeholder="Ex: John" />
+          <RegisterForm register={form.register} name="Last name"  placeholder="Ex: James" />
+        </div>
+        <div className="flex gap-4 [&_input]:w-full [&_input]:p-3 [&_input]:border [&_input]:rounded-xl">
+          <RegisterForm register={form.register} name="MTSU Number"     placeholder="Ex: 012345" />
+          <RegisterForm register={form.register} name="Graduation Year" placeholder="Ex: 2026"   />
+        </div>
+        <div className="flex gap-4 [&_input]:w-full [&_input]:p-3 [&_input]:border [&_input]:rounded-xl">
+          <RegisterForm register={form.register} name="Personal Email" placeholder="you@example.com" />
+          <RegisterForm register={form.register} name="MTSU Email"     placeholder="you@mtmail.mtsu.edu" />
+        </div>
+      </>
+    );
   };
 
-  const buttonText = type === 'sign-in' ? 'Sign In' : 'Sign Up';
-
   return (
-    <section className="max-w-md mx-auto p-6 justify-items-center">
-      <h3 className="text-black text-2xl font-bold">
-        {user ? 'Link Account' : type === 'sign-in' ? 
-          "Welcome back!"
-          : 
-          "Get Started Now"
-        }
+    <section className="max-w-md mx-auto p-6">
+      <h3 className="text-2xl font-bold mb-2">
+        {type === 'sign-in' ? 'Welcome back!' : 'Get Started Now'}
       </h3>
-      <p className="font-bold text-black text-center pt-2 pr-4 pl-4 pb-10">
-        {user ? 'Link your account to get started' : type === 'sign-in' ?
-          <>
-            Enter your credentials to access your account
-          </>
-          :
-          <>
-            Connect with classmates in your majore efortlessly.
-            Join real-time group chats, build friendships, and enhance your university experience
-          </>
-        }
-      
+      <p className="text-center mb-6 text-gray-600">
+        {type === 'sign-in'
+          ? 'Enter your credentials to access your account'
+          : 'Verify your enrollment to continue'}
       </p>
 
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 w-[25rem]">
-          {renderFormFields()}
-
+          {renderFields()}
           <Button
             type="submit"
-            className="w-full p-2 rounded-xl text-white text-2xl bg-[#38B6FF] hover:bg-blue-500"
+            className="w-full p-2 rounded-xl text-white bg-[#38B6FF]"
             disabled={isLoading}
           >
-            {isLoading ? <Loader2 size={20} className="animate-spin" /> : buttonText}
+            {isLoading
+              ? <Loader2 className="animate-spin" />
+              : (type === 'sign-in' ? 'Sign In' : 'Verify')}
           </Button>
         </form>
       </Form>
 
-      <div className="text-black flex">
+      <div className="mt-4 text-center">
         {type === 'sign-in' ? (
-          <div className="grid gap-0 justify-items-center">
-            <section className='pt-[2rem] pb-[1rem]'>
-              <img src='Frame 61.jpg'/>
-            </section>
-
-            <section className='flex gap-1'>
-              <h1 className="text-sm">Don't have an account? </h1>
-                <Link to="/sign_up">Sign up</Link>
-            </section>
-          </div>
+          <>
+            <span>Don't have an account? </span>
+            <Link to="/sign_up" className="text-blue-600 hover:underline">Sign up</Link>
+          </>
         ) : (
-          <div className="grid gap-0 justify-items-center">
-            <section className='pt-[2rem] pb-[1rem]'>
-              <img src='Frame 61.jpg'/>
-            </section>
-
-            <section className='flex pb-4 gap-2'> {/* Added gap between buttons */}
-              <Button className="bg-white hover:ring-4 focus:ring-4 p-2 shadow-sm rounded-lg">
-                <img src='Frame 60.jpg' alt='Icon for Action 1' className='w-full h-auto' />
-              </Button>
-
-              <Button className="bg-white hover:ring-4 focus:ring-4 p-2 shadow-sm rounded-lg">
-                <img src='Frame 62.jpg' alt='Icon for Action 2' className='w-full h-auto' />
-              </Button>
-            </section>
-
-            <section className='flex gap-2'>
-              <h1 className="text-sm">Do you already have an account?</h1>
-                <Link to="/log_in">Sign In</Link>
-            </section>
-            
-          </div>
+          <>
+            <span>Already verified? </span>
+            <Link to="/log_in" className="text-blue-600 hover:underline">Sign In</Link>
+          </>
         )}
       </div>
 
-      {error && <p className="text-red-500 mt-2">{error}</p>}
+      {error && <p className="text-red-500 mt-4">{error}</p>}
     </section>
   );
-};
-
-export default AuthForm;
+}
