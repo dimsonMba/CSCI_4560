@@ -15,7 +15,7 @@ const RegisterSchema = (type) => {
     "First name": z.string().min(3, { message: 'At least 3 characters' }),
     "Last name": z.string().min(3, { message: 'At least 3 characters' }),
     "MTSU Email": z.string().email({ message: 'Invalid email format' }),
-    "MTSU Number": z.string().min(6, { message: 'At least 6 characters' }),
+    "MTSU Number": z.string().min(1, { message: 'At least 6 characters' }),
   };
 
   if (type === 'sign-up') {

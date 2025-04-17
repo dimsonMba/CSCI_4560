@@ -3,7 +3,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from django.contrib.auth.hashers import check_password
 from .models import UniUser  # Changed model from Student to UniUser
-from .serializers import UniUserSerializer, LoginSerializer
+from .serializers import UniUserSerializer, LoginSerializer, VerificationSeriliazer
 from django.db import DatabaseError, IntegrityError
 
 class CreateUserView(generics.ListCreateAPIView):
@@ -12,8 +12,48 @@ class CreateUserView(generics.ListCreateAPIView):
     permission_classes = [permissions.AllowAny]  # Allow unauthenticated sign-up
 
 class VerificationView(APIView):
-    def post():
-        pass
+    permission_classes = [permissions.AllowAny]
+
+    def post(self, request):
+        serializer = VerificationSeriliazer(data=request.data)
+
+        if serializer.is_valid():
+            student_id = serializer.validated_data['student_id']
+            first_name = serializer.validated_data['first_name']
+            last_name = serializer.validated_data['last_name']
+            email = serializer.validated_data['email']
+
+            try:
+                student = UniUser.objects.get(student_id=student_id)
+
+                # If found, issue tokens and return user data
+                refresh = RefreshToken.for_user(student)
+                return Response({
+                    "message": "User already exists. Logged in.",
+                    "refresh": str(refresh),
+                    "access": str(refresh.access_token),
+                    "user": UniUserSerializer(student).data
+                }, status=status.HTTP_200_OK)
+
+            except UniUser.DoesNotExist:
+                # User doesn't exist — register and issue token
+                student = UniUser.objects.create(
+                    student_id=student_id,
+                    first_name=first_name,
+                    last_name=last_name,
+                    email=email,
+                    username=email,  # assuming you want to use email as username
+                    #password=make_password("default_password123")  # set a random/initial password
+                )
+                refresh = RefreshToken.for_user(student)
+                return Response({
+                    "message": "User registered successfully",
+                    "refresh": str(refresh),
+                    "access": str(refresh.access_token),
+                    "user": UniUserSerializer(student).data
+                }, status=status.HTTP_201_CREATED)
+
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 # In LoginView
 from rest_framework_simplejwt.tokens import RefreshToken
