@@ -13,7 +13,7 @@ router.register(r'users', StudentInfoView, basename="uniuser")
 
 urlpatterns = [
     path('verification/', VerificationView.as_view(), name='verification'),
-    path('login/',        LoginView.as_view(),        name='login'),
+    path('login/', LoginView.as_view(),        name='login'),
     path('register/',     CreateUserView.as_view(),   name='register'),
     path('me/', CurrentUserView.as_view(), name='current-user'),
     path('', include(router.urls)),

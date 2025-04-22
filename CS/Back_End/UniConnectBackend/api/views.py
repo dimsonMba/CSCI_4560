@@ -36,12 +36,14 @@ class VerificationView(APIView):
         try:
             master = UniversityData.objects.get(student_id=sid, mtsu_email=email)
         except UniversityData.DoesNotExist:
+            print("Data Base not exist")
             return Response(
                 {'success': False, 'message': 'Student record not found.'},
                 status=status.HTTP_404_NOT_FOUND
             )
 
         if master.first_name.lower() != fn or master.last_name.lower() != ln:
+            print("first last")
             return Response(
                 {'success': False, 'message': 'Name does not match records.'},
                 status=status.HTTP_400_BAD_REQUEST
@@ -101,16 +103,19 @@ class StudentInfoView(viewsets.ModelViewSet):
         if self.action == "create":
             return [permissions.AllowAny()]
         return [permissions.IsAuthenticated()]
+
+@api_view(["GET"])
+@permission_classes([permissions.IsAuthenticated])
+def current_user_view(request):
+    user = UniUser.objects.all()
+    serializer = UniUserSerializer(request.user)
+    return Response(serializer.data)
+
     
 class CurrentUserView(APIView):
     permission_classes = [permissions.IsAuthenticated]
 
     def get(self, request):
-        serializer = UniUserSerializer(request.user)
+        serializer = current_user_view(request.user)
         return Response(serializer.data)
 
-@api_view(["GET"])
-@permission_classes([permissions.IsAuthenticated])
-def current_user_view(request):
-    serializer = UniUserSerializer(request.user)
-    return Response(serializer.data)

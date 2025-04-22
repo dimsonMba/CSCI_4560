@@ -1,13 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import api from 'axios';
 
 const RightSide = () => {
   const [user, setUser] = useState(null);
-
+  //Get a user, 
+  //SAave the user
+  //And collect information
   useEffect(() => {
     const token = localStorage.getItem('access_token');
+    
     if (token) {
-      axios.get('http://127.0.0.1:8000/api/me/', {
+      api.get('http://127.0.0.1:8000/api/me/', {
         headers: {
           Authorization: `Bearer ${token}`
         }
@@ -17,7 +20,7 @@ const RightSide = () => {
     }
   }, []);
 
-  if (user) return <div className="p-4">Loading profile...</div>;
+  if (!user) return <div className="p-4">Loading profile...</div>;
 
   return (
     <div className="h-full p-4 bg-white border-l shadow-lg text-sm">
