@@ -17,7 +17,7 @@ const RightSide = () => {
     }
   }, []);
 
-  if (!user) return <div className="p-4">Loading profile...</div>;
+  if (user) return <div className="p-4">Loading profile...</div>;
 
   return (
     <div className="h-full p-4 bg-white border-l shadow-lg text-sm">
