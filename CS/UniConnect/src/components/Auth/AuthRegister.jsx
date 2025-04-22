@@ -11,16 +11,15 @@ import api                            from '../../api';
 
 // Schema now includes Username & Password
 const formSchema = z.object({
-  'First name':      z.string().min(3),
-  'Last name':       z.string().min(3),
-  'Personal Email':  z.string().email(),
-  'MTSU Email':      z.string().email(),
-  'MTSU Number':     z.string().min(6),
-  'Phone Number':    z.string().min(10),
-  'Graduation Year': z.string().length(4),
-  'Major':           z.string().min(3),
-  'Username':        z.string().min(3),
-  'Password':        z.string().min(6),
+  "First name": z.string().min(3, { message: 'First name must be at least 3 characters' }),
+  "Last name": z.string().min(3, { message: 'Last name must be at least 3 characters' }),
+  "Personal Email": z.string().email({ message: 'Invalid email format' }),
+  "MTSU Email": z.string().email({ message: 'Invalid email format' }),
+  "MTSU Number": z.string().min(6, { message: 'M Number must be at least 6 characters' }),
+  "Phone Number": z.string().min(10, { message: 'Phone number must be at least 10 digits' }),
+  "Graduation Year": z.string().length(4, { message: 'Enter a valid 4-digit year' }),
+  "Major": z.string().min(3, { message: 'Choose your major' }),
+  "Password": z.string().min(6, { message: 'Password must be at least 6 characters' }),
 });
 
 export default function AuthRegister({ initialData }) {
@@ -95,14 +94,14 @@ export default function AuthRegister({ initialData }) {
   };
 
   return (
-    <section className="max-w-md mx-auto p-6">
-      <h3 className="text-2xl font-bold mb-2">Get Started Now</h3>
-      <p className="text-center mb-6 text-gray-600">
+    <section className="max-w-md mx-auto justify-items-center">
+      <h3 className="text-black text-2xl font-bold mb-1">Get Started Now</h3>
+      <p className="text-black text-center pt-1 pr-4 pl-4 pb-5">
         Connect with classmates in your major effortlessly.
       </p>
 
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 w-[30rem]">
           {/* two‑column rows */}
           <div className="flex gap-4 [&_input]:w-full [&_input]:p-3 [&_input]:border [&_input]:rounded-xl">
             <RegisterForm register={form.register} name="First name" placeholder="Enter your first name" />
@@ -130,14 +129,12 @@ export default function AuthRegister({ initialData }) {
           </div>
 
           {/* terms checkbox */}
-          <div className="flex items-center gap-2">
-            <input id="terms" type="checkbox" className="h-5 w-5" />
-            <label htmlFor="terms" className="text-sm">
-              I agree with the <a href="#" className="text-blue-600 hover:underline">terms & policy</a>
-            </label>
+          <div className='flex items-center gap-4'>
+            <input id="SaveInfo" type='checkbox' className="h-5 w-5 text-blue-600 bg-white border border-black rounded-sm focus:ring-2 focus:ring-blue-500 hover:bg-white hover:border-blue-500 data-[state=unchecked]:bg-white dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800"/>
+            <label for="SaveInfo" className="text-sm font-medium text-black leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-100">I agree with the <a href="#" class="text-blue-600 dark:text-blue-500 hover:underline">terms & policy</a></label>
           </div>
 
-          <Button type="submit" className="w-full p-2 rounded-xl text-white bg-[#38B6FF]" disabled={isLoading}>
+          <Button type="submit" className="w-full p-2 rounded-xl text-white text-2xl bg-[#38B6FF] hover:bg-blue-500" disabled={isLoading}>
             {isLoading ? <Loader2 className="animate-spin" /> : 'Register'}
           </Button>
 

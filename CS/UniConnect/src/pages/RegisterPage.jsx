@@ -4,10 +4,10 @@ const RegisterPage = () => {
   return (
   <>
     <div>
-      <div className="bg-white grid h-screen w-screen grid-cols-[50%_50%]">
+      <div className="bg-white grid w-screen grid-cols-[50%_50%] h-screen">
         {/* Sign Up Section */}
-        <div className="h-full flex flex-col justify-center items-center">
-          <section>
+        <div className="justify-center items-center relative ">
+          <section >
             <AuthRegister/>
           </section>
         </div>

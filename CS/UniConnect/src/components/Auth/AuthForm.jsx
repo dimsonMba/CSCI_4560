@@ -104,8 +104,8 @@ export default function AuthForm({ type }) {
             <RegisterForm register={form.register} name="password" placeholder="Enter your password" />
           </div>
           <div className="flex items-center gap-4">
-            <input id="SaveInfo" type="checkbox" className="h-5 w-5" />
-            <label htmlFor="SaveInfo" className="text-sm">Remember for 30 days</label>
+            <input id="SaveInfo" type="checkbox" className="h-5 w-5 text-blue-600 bg-white border border-black rounded-sm focus:ring-2 focus:ring-blue-500 hover:bg-white hover:border-blue-500 data-[state=unchecked]:bg-white dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800" />
+            <label htmlFor="SaveInfo" className="text-sm font-medium text-black leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-100">Remember for 30 days</label>
           </div>
         </>
       );
@@ -129,14 +129,14 @@ export default function AuthForm({ type }) {
   };
 
   return (
-    <section className="max-w-md mx-auto p-6">
-      <h3 className="text-2xl font-bold mb-2">
+    <section className="max-w-md mx-auto p-6 justify-items-center">
+      <h3 className="text-black text-2xl font-bold">
         {type === 'sign-in' ? 'Welcome back!' : 'Get Started Now'}
       </h3>
-      <p className="text-center mb-6 text-gray-600">
+      <p className="font-bold text-black text-center pt-2 pr-4 pl-4 pb-10">
         {type === 'sign-in'
           ? 'Enter your credentials to access your account'
-          : 'Verify your enrollment to continue'}
+          : 'Connect with classmates in your majore efortlessly. Join real-time group chats, build friendships, and enhance your university experience'}
       </p>
 
       <Form {...form}>
@@ -144,7 +144,7 @@ export default function AuthForm({ type }) {
           {renderFields()}
           <Button
             type="submit"
-            className="w-full p-2 rounded-xl text-white bg-[#38B6FF]"
+            className="w-full p-2 rounded-xl text-white text-2xl bg-[#38B6FF] hover:bg-blue-500"
             disabled={isLoading}
           >
             {isLoading
@@ -154,16 +154,48 @@ export default function AuthForm({ type }) {
         </form>
       </Form>
 
-      <div className="mt-4 text-center">
+      <div className="text-black flex">
+        
         {type === 'sign-in' ? (
           <>
-            <span>Don't have an account? </span>
-            <Link to="/sign_up" className="text-blue-600 hover:underline">Sign up</Link>
+          <div className="grid gap-0 justify-items-center">
+            <section className='pt-[2rem] pb-[1rem]'>
+              <img src='Frame 61.jpg'/>
+            </section>
+
+            <section className='flex gap-1'>
+              <h1 className="text-sm">Don't have an account? </h1>
+              <a>
+                <Link to="/sign_up" className="text-blue-600 hover:underline">Sign up</Link>
+              </a>
+            </section>
+          </div>
           </>
         ) : (
           <>
-            <span>Already verified? </span>
-            <Link to="/log_in" className="text-blue-600 hover:underline">Sign In</Link>
+            <div className="grid gap-0 justify-items-center">
+              <section className='pt-[2rem] pb-[1rem]'>
+                <img src='Frame 61.jpg'/>
+              </section>
+
+              <section className='flex pb-4 gap-2'> {/* Added gap between buttons */}
+                <Button className="bg-white hover:ring-4 focus:ring-4 p-2 shadow-sm rounded-lg">
+                  <img src='Frame 60.jpg' alt='Icon for Action 1' className='w-full h-auto' />
+                </Button>
+
+                <Button className="bg-white hover:ring-4 focus:ring-4 p-2 shadow-sm rounded-lg">
+                  <img src='Frame 62.jpg' alt='Icon for Action 2' className='w-full h-auto' />
+                </Button>
+              </section>
+
+              <section className='flex gap-2'>
+                <h1 className="text-sm">Do you already have an account?</h1>
+                <a>
+                  <Link to="/log_in" className="text-blue-600 hover:underline">Sign In</Link>
+                </a>
+              </section>
+              
+            </div>
           </>
         )}
       </div>
