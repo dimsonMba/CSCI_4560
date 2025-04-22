@@ -4,7 +4,8 @@ from .views import (
     StudentInfoView,
     LoginView,
     CreateUserView,
-    VerificationView
+    VerificationView,
+    CurrentUserView
 )
 
 router = DefaultRouter()
@@ -14,5 +15,6 @@ urlpatterns = [
     path('verification/', VerificationView.as_view(), name='verification'),
     path('login/',        LoginView.as_view(),        name='login'),
     path('register/',     CreateUserView.as_view(),   name='register'),
+    path('me/', CurrentUserView.as_view(), name='current-user'),
     path('', include(router.urls)),
 ]

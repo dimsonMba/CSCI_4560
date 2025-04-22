@@ -1,20 +1,19 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate, Link }          from 'react-router-dom';
-import { useForm }                    from 'react-hook-form';
-import { zodResolver }                from '@hookform/resolvers/zod';
-import { z }                          from 'zod';
-import RegisterForm                   from './RegisterForm';
-import { Button }                     from '../ui/button';
-import { Loader2 }                    from 'lucide-react';
-import { Form }                       from '../ui/form';
-import api                            from '../../api';
+import { useNavigate, Link } from 'react-router-dom';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { z } from 'zod';
+import RegisterForm from './RegisterForm';
+import { Button } from '../ui/button';
+import { Loader2 } from 'lucide-react';
+import { Form } from '../ui/form';
+import api from '../../api';
 
-// Define schema dynamically
 const RegisterSchema = (type) => {
   const base = {
-    "First name":  z.string().min(3),
-    "Last name":   z.string().min(3),
-    "MTSU Email":  z.string().email(),
+    "First name": z.string().min(3),
+    "Last name": z.string().min(3),
+    "MTSU Email": z.string().email(),
     "MTSU Number": z.string().min(1),
   };
 
@@ -40,11 +39,11 @@ const generateDefaultValues = (schema) =>
 export default function AuthForm({ type }) {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
-  const [error,     setError]     = useState(null);
+  const [error, setError] = useState(null);
 
   const formSchema = formSchemas[type];
   const form = useForm({
-    resolver:     zodResolver(formSchema),
+    resolver: zodResolver(formSchema),
     defaultValues: generateDefaultValues(formSchema),
   });
 
@@ -62,23 +61,28 @@ export default function AuthForm({ type }) {
           username: data.username,
           password: data.password,
         });
-        if (res.data.message === "Login successful") {
+
+        if (res.data.access) {
+          localStorage.setItem('access_token', res.data.access);
+          localStorage.setItem('refresh_token', res.data.refresh);
           navigate('/chatpage');
           return;
         }
+
         setError(res.data.error || 'Login failed.');
       } else {
-        // verification step
         const res = await api.post('verification/', {
-          "First name":  data["First name"],
-          "Last name":   data["Last name"],
+          "First name": data["First name"],
+          "Last name": data["Last name"],
           "MTSU Number": data["MTSU Number"],
-          "MTSU Email":  data["MTSU Email"],
+          "MTSU Email": data["MTSU Email"],
         });
+
         if (res.data.success) {
           navigate('/register_page', { state: { initialData: res.data.user } });
           return;
         }
+
         setError(res.data.message || 'Verification failed.');
       }
     } catch (err) {
@@ -110,15 +114,15 @@ export default function AuthForm({ type }) {
       <>
         <div className="flex gap-4 [&_input]:w-full [&_input]:p-3 [&_input]:border [&_input]:rounded-xl">
           <RegisterForm register={form.register} name="First name" placeholder="Ex: John" />
-          <RegisterForm register={form.register} name="Last name"  placeholder="Ex: James" />
+          <RegisterForm register={form.register} name="Last name" placeholder="Ex: James" />
         </div>
         <div className="flex gap-4 [&_input]:w-full [&_input]:p-3 [&_input]:border [&_input]:rounded-xl">
-          <RegisterForm register={form.register} name="MTSU Number"     placeholder="Ex: 012345" />
-          <RegisterForm register={form.register} name="Graduation Year" placeholder="Ex: 2026"   />
+          <RegisterForm register={form.register} name="MTSU Number" placeholder="Ex: 012345" />
+          <RegisterForm register={form.register} name="Graduation Year" placeholder="Ex: 2026" />
         </div>
         <div className="flex gap-4 [&_input]:w-full [&_input]:p-3 [&_input]:border [&_input]:rounded-xl">
           <RegisterForm register={form.register} name="Personal Email" placeholder="you@example.com" />
-          <RegisterForm register={form.register} name="MTSU Email"     placeholder="you@mtmail.mtsu.edu" />
+          <RegisterForm register={form.register} name="MTSU Email" placeholder="you@mtmail.mtsu.edu" />
         </div>
       </>
     );

@@ -12,5 +12,6 @@ urlpatterns = [
     path('api/verification/', VerificationView.as_view(), name='verification'),
     path('api/login/', LoginView.as_view(), name='login'),
     path('api/student/', include(router.urls)),  # For student data access
+    path('api/', include('api.urls')),  # 👈 This line is essential
     path('api-auth/', include('rest_framework.urls')),  # For browsable API login
 ]

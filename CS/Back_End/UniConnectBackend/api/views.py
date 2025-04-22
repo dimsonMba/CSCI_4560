@@ -1,7 +1,10 @@
+# FILE: views.py
+
 from rest_framework import status, permissions, generics, viewsets
 from rest_framework.views    import APIView
 from rest_framework.response import Response
 from rest_framework_simplejwt.tokens import RefreshToken
+from rest_framework.decorators import api_view, permission_classes
 from django.contrib.auth.hashers     import make_password, check_password
 from django.db                       import IntegrityError
 
@@ -30,7 +33,6 @@ class VerificationView(APIView):
         ln    = serializer.validated_data['last_name'].strip().lower()
         email = serializer.validated_data['mtsu_email'].lower()
 
-        # 1) Lookup in the master university_data
         try:
             master = UniversityData.objects.get(student_id=sid, mtsu_email=email)
         except UniversityData.DoesNotExist:
@@ -39,14 +41,12 @@ class VerificationView(APIView):
                 status=status.HTTP_404_NOT_FOUND
             )
 
-        # 2) Verify names
         if master.first_name.lower() != fn or master.last_name.lower() != ln:
             return Response(
                 {'success': False, 'message': 'Name does not match records.'},
                 status=status.HTTP_400_BAD_REQUEST
             )
 
-        # 3) Return the data needed for sign‑up
         return Response({
             'success': True,
             'user': {
@@ -73,12 +73,14 @@ class LoginView(APIView):
         try:
             user = UniUser.objects.get(username=username)
             if check_password(password, user.password):
-                refresh = RefreshToken.for_user(user)
+                refresh = RefreshToken()
+                refresh['user_id'] = user.user_id
+
                 return Response({
                     'message': 'Login successful',
                     'refresh': str(refresh),
-                    'access':  str(refresh.access_token),
-                    'user':    UniUserSerializer(user).data
+                    'access': str(refresh.access_token),
+                    'user': UniUserSerializer(user).data
                 }, status=status.HTTP_200_OK)
             else:
                 return Response(
@@ -99,3 +101,16 @@ class StudentInfoView(viewsets.ModelViewSet):
         if self.action == "create":
             return [permissions.AllowAny()]
         return [permissions.IsAuthenticated()]
+    
+class CurrentUserView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get(self, request):
+        serializer = UniUserSerializer(request.user)
+        return Response(serializer.data)
+
+@api_view(["GET"])
+@permission_classes([permissions.IsAuthenticated])
+def current_user_view(request):
+    serializer = UniUserSerializer(request.user)
+    return Response(serializer.data)
