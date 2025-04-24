@@ -28,9 +28,9 @@ const HomePage = () => {
             </Link>
           </section>
           <div className="mt-[150px] items-center ml-[70px] mr-[70px] inline-block p-[70px]">
-            <h1 className="text-black text-xl font-bold font-crimson ml-[0rem]">Classmate, your Friends, your Network</h1>
+            <h1 className="text-black text-xl font-bold font-crimson ml-[0rem]">Classmates, your Friends, your Network</h1>
             <p className="text-gray-600 mt-2">
-              Why wait until sophomore to build your team? Start now in your freshman year.
+              Why wait until sophomore year to start building your network? Begin connecting from day one with Uniconnect.
             </p>
           </div>
 

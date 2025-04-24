@@ -20,8 +20,8 @@ const RegisterSchema = (type) => {
   return type === 'sign-up'
     ? z.object(base)
     : z.object({
-        "username": z.string().min(3),
-        "password": z.string().min(6),
+        "Username": z.string().min(3),
+        "Password": z.string().min(6),
       });
 };
 
@@ -100,10 +100,10 @@ export default function AuthForm({ type }) {
       return (
         <>
           <div className="[&_input]:w-full [&_input]:p-3 [&_input]:border [&_input]:rounded-xl">
-            <RegisterForm register={form.register} name="username" placeholder="Ex: jg2x" />
+            <RegisterForm register={form.register} name="Username" placeholder="Ex: jg2x" />
           </div>
           <div className="[&_input]:w-full [&_input]:p-3 [&_input]:border [&_input]:rounded-xl">
-            <RegisterForm register={form.register} name="password" placeholder="Enter your password" />
+            <RegisterForm register={form.register} name="Password" placeholder="Enter your password" />
           </div>
           <div className="flex items-center gap-4">
             <input id="SaveInfo" type="checkbox" className="h-5 w-5 text-blue-600 bg-white border border-black rounded-sm focus:ring-2 focus:ring-blue-500 hover:bg-white hover:border-blue-500 data-[state=unchecked]:bg-white dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800" />
@@ -137,8 +137,8 @@ export default function AuthForm({ type }) {
       </h3>
       <p className="font-bold text-black text-center pt-2 pr-4 pl-4 pb-10">
         {type === 'sign-in'
-          ? 'Enter your credentials to access your account'
-          : 'Connect with classmates in your majore efortlessly. Join real-time group chats, build friendships, and enhance your university experience'}
+          ? 'Log in to your account by entering your credentials below.'
+          : 'Effortlessly connect with classmates in your major. Join real-time group chats, foster friendships, and enrich your university journey with Uniconnect.'}
       </p>
 
       <Form {...form}>
