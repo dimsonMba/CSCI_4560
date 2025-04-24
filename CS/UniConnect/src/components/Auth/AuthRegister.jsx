@@ -19,6 +19,7 @@ const formSchema = z.object({
   "Phone Number": z.string().min(10, { message: 'Phone number must be at least 10 digits' }),
   "Graduation Year": z.string().length(4, { message: 'Enter a valid 4-digit year' }),
   "Major": z.string().min(3, { message: 'Choose your major' }),
+  "Username":        z.string().min(3, { message: 'Username must be at least 3 characters' }),
   "Password": z.string().min(6, { message: 'Password must be at least 6 characters' }),
 });
 

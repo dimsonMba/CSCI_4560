@@ -1,6 +1,11 @@
 import AuthRegister from '@/components/Auth/AuthRegister'
 import React from 'react'
+import { useLocation } from 'react-router-dom';
 const RegisterPage = () => {
+
+  const { state } = useLocation();
+  const initialData = state?.initialData;   // <-- this comes from your AuthForm navigate(..., { state: { initialData } })
+
   return (
   <>
     <div>
@@ -8,7 +13,7 @@ const RegisterPage = () => {
         {/* Sign Up Section */}
         <div className="justify-center items-center relative ">
           <section >
-            <AuthRegister/>
+            <AuthRegister initialData={initialData} />
           </section>
         </div>
 
@@ -28,4 +33,4 @@ const RegisterPage = () => {
 );
 }
 
-export default RegisterPage
+export default RegisterPage;
