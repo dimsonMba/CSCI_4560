@@ -103,19 +103,11 @@ class StudentInfoView(viewsets.ModelViewSet):
         if self.action == "create":
             return [permissions.AllowAny()]
         return [permissions.IsAuthenticated()]
-
-@api_view(["GET"])
-@permission_classes([permissions.IsAuthenticated])
-def current_user_view(request):
-    user = UniUser.objects.all()
-    serializer = UniUserSerializer(request.user)
-    return Response(serializer.data)
-
     
 class CurrentUserView(APIView):
     permission_classes = [permissions.IsAuthenticated]
 
     def get(self, request):
-        serializer = current_user_view(request.user)
+        serializer = UniUserSerializer(request.user)
         return Response(serializer.data)
 

@@ -5,20 +5,22 @@ import React from 'react'
 
 function ChatPage() {
   return (
-    <section className="flex flex-row w-full">
-      <div className="w-[25%]">
+    <section className="flex flex-row h-screen w-screen bg-gray-50">
+      {/* Left sidebar - Contacts/Conversations list */}
+      <div className="w-[25%] border-r border-gray-200 bg-white overflow-y-auto">
         <LeftSide />
       </div>
 
-      <div className="w-[70%]">
+      {/* Main chat area */}
+      <div className="w-[50%] flex flex-col border-r border-gray-200">
         <CenterSide />
       </div>
 
-      <div className="w-[15%]">
+      {/* Right sidebar - User profile/chat details */}
+      <div className="w-[25%] overflow-y-auto">
         <RightSide />
       </div>
     </section>
-
   )
 }
 
