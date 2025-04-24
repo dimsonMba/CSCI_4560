@@ -165,9 +165,9 @@ export default function AuthForm({ type }) {
 
             <section className='flex gap-1'>
               <h1 className="text-sm">Don't have an account? </h1>
-              <a>
-                <Link to="/sign_up" className="text-blue-600 hover:underline">Sign up</Link>
-              </a>
+              
+              <Link to="/sign_up" className="text-blue-600 hover:underline">Sign up</Link>
+              
             </section>
           </div>
           </>
@@ -190,9 +190,9 @@ export default function AuthForm({ type }) {
 
               <section className='flex gap-2'>
                 <h1 className="text-sm">Do you already have an account?</h1>
-                <a>
-                  <Link to="/log_in" className="text-blue-600 hover:underline">Sign In</Link>
-                </a>
+                
+                <Link to="/log_in" className="text-blue-600 hover:underline">Sign In</Link>
+                
               </section>
               
             </div>
