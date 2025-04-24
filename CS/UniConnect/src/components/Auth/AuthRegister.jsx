@@ -82,6 +82,7 @@ export default function AuthRegister({ initialData }) {
     try {
       const res = await api.post('register/', payload);
       if (res.status === 201) {
+        localStorage.setItem('user', JSON.stringify(res.data));
         navigate('/chatpage');
       } else {
         setError(res.data.error || 'Registration failed.');

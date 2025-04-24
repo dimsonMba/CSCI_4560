@@ -1,5 +1,3 @@
-# FILE: views.py
-
 from rest_framework import status, permissions, generics, viewsets
 from rest_framework.views    import APIView
 from rest_framework.response import Response
@@ -14,6 +12,10 @@ from .serializers import (
     LoginSerializer,
     VerificationSerializer
 )
+
+from .models import Post
+from .serializers import PostSerializer
+from .authentication import UniUserJWTAuthentication
 
 class CreateUserView(generics.ListCreateAPIView):
     queryset         = UniUser.objects.all()
@@ -94,10 +96,35 @@ class LoginView(APIView):
                 {'error': 'Username or password is incorrect.'},
                 status=status.HTTP_404_NOT_FOUND
             )
+        
+class PostViewSet(viewsets.ModelViewSet):
+    """
+    CRUD for Posts, but only within the logged-in user's major.
+    """
+    queryset = Post.objects.all().order_by('created_at')
+    serializer_class = PostSerializer
+    authentication_classes = [UniUserJWTAuthentication]
+    permission_classes     = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        # show only posts by users in my major
+        my_major = self.request.user.major
+        return Post.objects.filter(user__major=my_major)
+
+    def perform_create(self, serializer):
+        # automatically set the author to the logged-in UniUser
+        serializer.save(user=self.request.user)
+
 
 class StudentInfoView(viewsets.ModelViewSet):
     queryset         = UniUser.objects.all()
     serializer_class = UniUserSerializer
+
+    def get_queryset(self):
+        if self.action == 'list':
+            # only your classmates
+            return UniUser.objects.filter(major=self.request.user.major)
+        return UniUser.objects.all()
 
     def get_permissions(self):
         if self.action == "create":

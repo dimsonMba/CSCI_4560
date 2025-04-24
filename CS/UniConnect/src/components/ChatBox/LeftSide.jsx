@@ -1,53 +1,77 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { Input } from '../ui/input'
 import { SearchIcon } from '../ui/searchicon'
+import api from '../../api'
 
-function LeftSide() {
-  const contacts = [
-    { id: 1, name: 'John Doe', lastMessage: 'See you tomorrow!', unread: 2, time: '10:30 AM' },
-    { id: 2, name: 'Jane Smith', lastMessage: 'Did you finish the assignment?', unread: 0, time: '9:15 AM' },
-    { id: 3, name: 'Mike Johnson', lastMessage: 'Thanks for the notes!', unread: 0, time: 'Yesterday' },
-    { id: 4, name: 'Sarah Williams', lastMessage: 'Let me know when you\'re free', unread: 1, time: 'Yesterday' },
-  ]
+export default function LeftSide() {
+  const [contacts, setContacts]       = useState([])
+  const [search, setSearch]           = useState('')
+  const [currentUser, setCurrentUser] = useState(null)
+
+  // 1️⃣ Get current user (to know their major & student_id)
+  useEffect(() => {
+    const token = localStorage.getItem('access_token')
+    if (!token) return
+
+    api.get('me/', { headers: { Authorization: `Bearer ${token}` } })
+      .then(({ data }) => setCurrentUser(data))
+      .catch(console.error)
+  }, [])
+
+  // 2️⃣ Fetch all users, then filter to same major (excluding self)
+  useEffect(() => {
+    if (!currentUser) return
+    const token = localStorage.getItem('access_token')
+    api.get('users/', { headers: { Authorization: `Bearer ${token}` } })
+      .then(({ data }) => {
+        const sameMajor = data.filter(
+          u =>
+            u.major === currentUser.major &&
+            u.student_id !== currentUser.student_id
+        )
+        setContacts(sameMajor)
+      })
+      .catch(console.error)
+  }, [currentUser])
+
+  const filtered = contacts.filter(u =>
+    `${u.first_name} ${u.last_name}`.toLowerCase().includes(search.toLowerCase())
+  )
 
   return (
     <div className="h-full flex flex-col">
-      {/* App header */}
-      <div className='flex items-center justify-center relative p-4 border-b border-gray-200'>
-        <img className="w-12 h-12 mr-2" src="Blue Minimalist Chat Bubble.jpg" alt="Logo"/>
-        
-        <div className="relative w-full">
+      {/* Logo & Search */}
+      <div className="flex items-center justify-between p-4 border-b border-gray-200 bg-white">
+        <div className="flex items-center gap-2">
+          <img
+            src="Blue Minimalist Chat Bubble.jpg"
+            alt="Logo"
+            className="w-10 h-10"
+          />
+          
+        </div>
+        <div className="relative w-1/2">
           <SearchIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-black pointer-events-none" />
           <Input
             type="search"
+            value={search}
+            onChange={e => setSearch(e.target.value)}
             placeholder="Search..."
-            className="text-black pl-10 w-full rounded-full border border-gray-300 shadow-sm focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
+            className="text-black placeholder-black pl-10 w-full rounded-full border border-gray-300 shadow-sm focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
           />
         </div>
-
       </div>
 
-      {/* Search */}
-
-      {/* Contacts list */}
-      <div className="flex-1 overflow-y-auto">
-        {contacts.map((contact) => (
-          <div 
-            key={contact.id} 
-            className="p-3 border-b border-gray-100 hover:bg-gray-50 cursor-pointer flex justify-between items-center"
+      {/* Contacts */}
+      <div className="flex-1 overflow-y-auto bg-white">
+        {filtered.map(contact => (
+          <div
+            key={contact.student_id}
+            className="p-3 border-b border-gray-100 hover:bg-gray-50 cursor-pointer"
           >
-            <div>
-              <p className="text-black font-medium">{contact.name}</p>
-              <p className="text-sm text-gray-500 truncate">{contact.lastMessage}</p>
-            </div>
-            <div className="text-right">
-              <p className="text-xs text-gray-400">{contact.time}</p>
-              {contact.unread > 0 && (
-                <span className="inline-block mt-1 bg-blue-500 text-black text-xs rounded-full h-5 w-5 flex items-center justify-center">
-                  {contact.unread}
-                </span>
-              )}
-            </div>
+            <p className="text-black font-medium">
+              {contact.first_name} {contact.last_name}
+            </p>
           </div>
         ))}
       </div>
@@ -55,4 +79,4 @@ function LeftSide() {
   )
 }
 
-export default LeftSide
+

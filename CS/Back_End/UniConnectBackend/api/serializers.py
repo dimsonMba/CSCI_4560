@@ -1,8 +1,7 @@
-# api/serializers.py
-
 from rest_framework import serializers
 from django.contrib.auth.hashers import make_password
 from .models import UniUser
+from .models import Post
 
 class UniUserSerializer(serializers.ModelSerializer):
     # write-only fields for signup
@@ -54,3 +53,12 @@ class VerificationSerializer(serializers.Serializer):
             'mtsu_email': data.get('MTSU Email'),
         }
         return super().to_internal_value(mapped)
+    
+class PostSerializer(serializers.ModelSerializer):
+    # embed the posting user so frontend can show name & detect “me”
+    user = UniUserSerializer(read_only=True)
+
+    class Meta:
+        model = Post
+        fields = ['id', 'content', 'created_at', 'privacy', 'user']
+        read_only_fields = ['id', 'created_at', 'user']

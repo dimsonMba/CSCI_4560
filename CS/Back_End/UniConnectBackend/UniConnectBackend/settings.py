@@ -66,6 +66,9 @@ INSTALLED_APPS = [
     "api",
 ]
 
+# point Django (and SimpleJWT) at your custom model
+AUTH_USER_MODEL = "api.UniUser"
+
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',

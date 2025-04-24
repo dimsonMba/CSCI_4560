@@ -65,6 +65,8 @@ export default function AuthForm({ type }) {
         if (res.data.access) {
           localStorage.setItem('access_token', res.data.access);
           localStorage.setItem('refresh_token', res.data.refresh);
+          // save the user object too
+          localStorage.setItem('user', JSON.stringify(res.data.user));
           navigate('/chatpage');
           return;
         }

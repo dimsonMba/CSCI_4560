@@ -1,4 +1,23 @@
 from django.db import models
+from django.contrib.auth.models import (
+    AbstractBaseUser,
+    PermissionsMixin,
+    BaseUserManager,
+)
+
+class UniUserManager(BaseUserManager):
+    def create_user(self, username, password=None, **extra_fields):
+        if not username:
+            raise ValueError("The username must be set")
+        user = self.model(username=username, **extra_fields)
+        user.set_password(password)
+        user.save(using=self._db)
+        return user
+
+    def create_superuser(self, username, password, **extra_fields):
+        extra_fields.setdefault("is_staff", True)
+        extra_fields.setdefault("is_superuser", True)
+        return self.create_user(username, password, **extra_fields)
 
 # Table: UniversityData
 class UniversityData(models.Model):
@@ -38,21 +57,29 @@ class Department(models.Model):
 
 
 # Table: UniUsers (custom user model mirroring your SQL Users table)
-class UniUser(models.Model):
+class UniUser(AbstractBaseUser, PermissionsMixin):
+    USERNAME_FIELD = "username"
+    REQUIRED_FIELDS = []
+
     user_id         = models.AutoField(primary_key=True)
-    student_id = models.IntegerField("MTSU Number", unique=True, null=True, blank=True)
-    username = models.CharField("Username", max_length=100, unique=True, null=True, blank=True)
-    first_name      = models.CharField("First name", max_length=50, default='', blank=True)
-    last_name       = models.CharField("Last name", max_length=50, default='', blank=True)
-    personal_email  = models.EmailField("Personal Email", max_length=100, unique=True, default='', blank=True)
-    mtsu_email      = models.EmailField("MTSU Email", max_length=100, unique=True, default='', blank=True)
-    phone_number    = models.CharField("Phone Number", max_length=20, default='', blank=True)
+    student_id      = models.IntegerField("MTSU Number", unique=True, null=True, blank=True)
+    username        = models.CharField("Username", max_length=100, unique=True, null=True, blank=True)
+    first_name      = models.CharField("First name", max_length=50, default="", blank=True)
+    last_name       = models.CharField("Last name", max_length=50, default="", blank=True)
+    personal_email  = models.EmailField("Personal Email", max_length=100, unique=True, default="", blank=True)
+    mtsu_email      = models.EmailField("MTSU Email", max_length=100, unique=True, default="", blank=True)
+    phone_number    = models.CharField("Phone Number", max_length=20, default="", blank=True)
     graduation_year = models.IntegerField("Graduation Year", default=0)
-    major           = models.CharField("Major", max_length=100, default='', blank=True)
-    password        = models.CharField("Password", max_length=128, default='', blank=True)
+    major           = models.CharField("Major", max_length=100, default="", blank=True)
+    password        = models.CharField("Password", max_length=128, default="", blank=True)
+
+    is_active = models.BooleanField(default=True)
+    is_staff  = models.BooleanField(default=False)
+
+    objects = UniUserManager()
 
     class Meta:
-        db_table = 'uni_users'
+        db_table = "uni_users"
 
     def __str__(self):
         return f"{self.first_name} {self.last_name} (<{self.mtsu_email}>)"
