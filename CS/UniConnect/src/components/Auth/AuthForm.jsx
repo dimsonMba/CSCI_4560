@@ -11,17 +11,17 @@ import api from '../../api';
 
 const RegisterSchema = (type) => {
   const base = {
-    "First name": z.string().min(3),
-    "Last name": z.string().min(3),
-    "MTSU Email": z.string().email(),
-    "MTSU Number": z.string().min(1),
+    "First name": z.string().min(3, { message: 'First name must be at least 3 characters' }),
+    "Last name": z.string().min(3, { message: 'Last name must be at least 3 characters' }),
+    "MTSU Email": z.string().email({ message: 'Invalid email format' }),
+    "MTSU Number": z.string().min(6, { message: 'M Number must be at least 6 characters' }),
   };
 
   return type === 'sign-up'
     ? z.object(base)
     : z.object({
-        "username": z.string().min(3),
-        "password": z.string().min(6),
+        "username": z.string().min(3, { message: 'Username must be at least 3 characters' }),
+        "password": z.string().min(6, { message: 'Password must be at least 6 characters' }),
       });
 };
 
@@ -137,8 +137,8 @@ export default function AuthForm({ type }) {
       </h3>
       <p className="font-bold text-black text-center pt-2 pr-4 pl-4 pb-10">
         {type === 'sign-in'
-          ? 'Enter your credentials to access your account'
-          : 'Connect with classmates in your major effortlessly. Join real-time group chats, build friendships, and enhance your university experience'}
+          ? 'Log in to your account by entering your credentials below.'
+          : 'Effortlessly connect with classmates in your major. Join real-time group chats, foster friendships, and enrich your university journey with Uniconnect.'}
       </p>
 
       <Form {...form}>
