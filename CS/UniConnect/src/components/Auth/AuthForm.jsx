@@ -11,17 +11,17 @@ import api from '../../api';
 
 const RegisterSchema = (type) => {
   const base = {
-    "First name": z.string().min(3),
-    "Last name": z.string().min(3),
-    "MTSU Email": z.string().email(),
-    "MTSU Number": z.string().min(1),
+    "First name": z.string().min(3, { message: 'First name must be at least 3 characters' }),
+    "Last name": z.string().min(3, { message: 'Last name must be at least 3 characters' }),
+    "MTSU Email": z.string().email({ message: 'Invalid email format' }),
+    "MTSU Number": z.string().min(6, { message: 'M Number must be at least 6 characters' }),
   };
 
   return type === 'sign-up'
     ? z.object(base)
     : z.object({
-        "Username": z.string().min(3),
-        "Password": z.string().min(6),
+        "username": z.string().min(3, { message: 'Username must be at least 3 characters' }),
+        "password": z.string().min(6, { message: 'Password must be at least 6 characters' }),
       });
 };
 
@@ -100,10 +100,10 @@ export default function AuthForm({ type }) {
       return (
         <>
           <div className="[&_input]:w-full [&_input]:p-3 [&_input]:border [&_input]:rounded-xl">
-            <RegisterForm register={form.register} name="Username" placeholder="Ex: jg2x" />
+            <RegisterForm register={form.register} name="username" placeholder="Ex: jg2x" />
           </div>
           <div className="[&_input]:w-full [&_input]:p-3 [&_input]:border [&_input]:rounded-xl">
-            <RegisterForm register={form.register} name="Password" placeholder="Enter your password" />
+            <RegisterForm register={form.register} name="password" placeholder="Enter your password" />
           </div>
           <div className="flex items-center gap-4">
             <input id="SaveInfo" type="checkbox" className="h-5 w-5 text-blue-600 bg-white border border-black rounded-sm focus:ring-2 focus:ring-blue-500 hover:bg-white hover:border-blue-500 data-[state=unchecked]:bg-white dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800" />

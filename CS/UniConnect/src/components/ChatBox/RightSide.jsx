@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import api from '../../api'
+import { Button } from '../ui/button'
 
 const RightSide = () => {
   const [user, setUser] = useState(null)
@@ -73,10 +74,12 @@ const RightSide = () => {
     <div className="h-full p-6 bg-white overflow-y-auto">
       <div className="flex flex-col items-center space-y-6">
         <div className="w-24 h-24 rounded-full bg-gradient-to-r from-blue-100 to-blue-200 flex items-center justify-center shadow-inner">
-          <span className="text-2xl font-semibold text-blue-600">
-            {user.first_name.charAt(0)}
-            {user.last_name.charAt(0)}
-          </span>
+          {user.first_name && user.last_name && (
+            <span className="text-2xl font-semibold text-gray-600">
+              {user.first_name.charAt(0)}
+              {user.last_name.charAt(0)}
+            </span>
+          )}
         </div>
         <div className="text-center">
           <p className="font-semibold text-xl text-gray-800">
@@ -102,7 +105,7 @@ const RightSide = () => {
           </div>
         </div>
         <div className="w-full pt-4 mt-4 border-t border-gray-200">
-          <button
+          <Button
             onClick={onLogout}
             className="w-full py-3 bg-red-50 hover:bg-red-100 text-red-600 rounded-lg font-medium transition-colors flex items-center justify-center"
           >
@@ -110,7 +113,7 @@ const RightSide = () => {
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
             </svg>
             Log Out
-          </button>
+          </Button>
         </div>
       </div>
     </div>
